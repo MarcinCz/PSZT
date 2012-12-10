@@ -17,13 +17,14 @@ public class LetterTable {
 		Size = N*M;
 	}
 	
-	//generuje tablice literek NxM zapeniona literkami
+	//generuje tablice literek NxM zapelniona literkami
 	public void generate(int N, int M)
 	{
 		Table = new char[N][M];
 		Width = N;
 		Height = M;
 		Size = N*M;
+		LettersNumber = N*M;
 		
 		if((N*M)%2!=0)
 		{

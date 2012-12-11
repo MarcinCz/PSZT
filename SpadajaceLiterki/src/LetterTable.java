@@ -1,5 +1,8 @@
+package spadajaceliterki;
+
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JTextArea;
 
 
 public class LetterTable {
@@ -60,17 +63,21 @@ public class LetterTable {
 		}
 		
 	}
-	public void print()
+        
+	public String toString()
 	{
-		for(int i=0;i<Width;i++)
-		{
-			for(int j=0;j<Height;j++)
-			{
-				System.out.print(Table[i][j]);
-			}
-			System.out.println();
-		}
+            String output = "";
+            for(int i=0;i<Width;i++)
+            {
+                    for(int j=0;j<Height;j++)
+                    {
+                            output += Table[i][j];
+                    }
+                    output += "\n";
+            }
+            return output;
 	}
+        
 	//liczy ile jest mozliwych par do wybrania
 	public int calcPairs()
 	{

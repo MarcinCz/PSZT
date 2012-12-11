@@ -1,3 +1,4 @@
+package spadajaceliterki;
 
 public class Algorithm {
 

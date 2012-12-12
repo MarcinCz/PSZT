@@ -27,7 +27,9 @@ public class Main {
 			LT.print();
 			System.out.println("----------------------");
 		}
-		else System.out.println("Nie da sie");
+		else System.out.println("Nie da sie. W najlepszym rozwiazaniu zostalo "+Algorithm.getMinLetters()+" liter.");
+		
+		System.out.println("Odwiedzono "+Algorithm.getExploredNodes()+" wezlow.");
 	}
 
 }

@@ -9,7 +9,7 @@ public class LetterTable {
 	 */
 	
 	
-	//tworzy pusta tablice literek NxM
+	//tworzy pusta tablice literek MxN
 	public void createEmpty(int N, int M)
 	{
 		Width = M;
@@ -17,7 +17,7 @@ public class LetterTable {
 		Size = N*M;
 	}
 	
-	//generuje tablice literek NxM zapelniona literkami
+	//generuje tablice literek MxN zapelniona literkami
 	public void generate(int N, int M)
 	{
 		Table = new char[N][M];
@@ -105,11 +105,13 @@ public class LetterTable {
 		{
 			for(int j=0;j<Width;j++)
 			{
+				if(Table[i][j]==' ') continue;
+				
 				int iTemp=i+1;
 				int jTemp=j+1;
 				for(;iTemp<Height;iTemp++)
 				{
-					//jesli znajdzie pare w poziomie
+					//jesli znajdzie pare w pionie
 					if(Table[i][j]==Table[iTemp][j])
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.
@@ -126,7 +128,7 @@ public class LetterTable {
 				}
 				for(;jTemp<Width;jTemp++)
 				{
-					//jesli znajdzie w pionie
+					//jesli znajdzie w poziomie
 					if(Table[i][j]==Table[i][jTemp]) 
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.

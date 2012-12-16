@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package spadajaceliterki;
+
 
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -112,6 +114,7 @@ public class GameWindow extends javax.swing.JFrame {
 
         NextButton.setText("NextButton");
 
+        Logger.setEditable(false);
         Logger.setColumns(20);
         Logger.setRows(5);
         jScrollPane2.setViewportView(Logger);
@@ -120,9 +123,9 @@ public class GameWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(LettersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,12 +161,15 @@ public class GameWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        TitledBorder title = BorderFactory.createTitledBorder("Algorithm log:");
+        jScrollPane2.setBorder(title);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void GenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButtonActionPerformed
         letterTable = new LetterTable();
-        letterTable.generate(5, 8);
+        letterTable.generate(6, 6);
         Logger.append(letterTable.toString());
         Logger.append(letterTable.calcPairs() + NEW_LINE);
         Logger.append(NEW_LINE);
@@ -175,13 +181,28 @@ public class GameWindow extends javax.swing.JFrame {
 
     private void SolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveButtonActionPerformed
         ArrayList<LetterTable> A=new ArrayList<LetterTable>();
-        A=letterTable.getNextTables();
-        for(int i=0;i<A.size();i++)
-        {
-            Logger.append(A.get(i).toString());
-            Logger.append(A.get(i).calcPairs() + "\n");
-            Logger.append("\n");
+        try {
+//            A=letterTable.getNextTables();
+//            for(int i=0;i<A.size();i++)
+//            {
+//                Logger.append(A.get(i).toString());
+//                Logger.append(A.get(i).calcPairs() + "\n");
+//                Logger.append("\n");    
+//            }  
+            
+            ArrayList<LetterTable> ALT = Algorithm.IDA_Star(letterTable);
+            if(ALT != null) for(LetterTable LT: ALT)
+            {
+                    Logger.append(LT.toString());
+                    Logger.append("----------------------" + NEW_LINE);
+            }
+            else Logger.append("Nie da sie. W najlepszym rozwiazaniu zostalo "+Algorithm.getMinLetters()+" liter." + NEW_LINE);
+
+            Logger.append("Odwiedzono "+Algorithm.getExploredNodes()+" wezlow." + NEW_LINE);
+        } catch (java.lang.NullPointerException e) {
+            Logger.append("Error! LetterTable is null!\n\n");
         }
+        
     }//GEN-LAST:event_SolveButtonActionPerformed
 
     /**

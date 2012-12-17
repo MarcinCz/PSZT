@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		LetterTable L= new LetterTable();
-		L.generate(5, 6);
+		L.generate(6, 6);
 		L.print();
 		System.out.println("Rozwiazanie:\n");
 		/*System.out.println(L.calcPairs()+"  "+L.getLettersNumber());

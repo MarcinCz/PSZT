@@ -75,6 +75,10 @@ public class GameWindow extends javax.swing.JFrame {
         NextButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Logger = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        rowsField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        colsField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,33 +95,49 @@ public class GameWindow extends javax.swing.JFrame {
 
         TimerLabel.setText("Timer");
 
-        GenerateButton.setText("GenerateButton");
+        GenerateButton.setText("Nowa plansza");
         GenerateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GenerateButtonActionPerformed(evt);
             }
         });
 
-        SolveButton.setText("SolveButton");
+        SolveButton.setText("Rozwiąż planszę");
         SolveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolveButtonActionPerformed(evt);
             }
         });
 
-        PreviousButton.setText("PreviousButton");
+        PreviousButton.setText("Wstecz");
         PreviousButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PreviousButtonActionPerformed(evt);
             }
         });
 
-        NextButton.setText("NextButton");
+        NextButton.setText("Dalej");
 
         Logger.setEditable(false);
         Logger.setColumns(20);
+        Logger.setFont(new java.awt.Font("Ubuntu Mono", 0, 15)); // NOI18N
         Logger.setRows(5);
         jScrollPane2.setViewportView(Logger);
+
+        jLabel1.setText("Wiersze:");
+
+        rowsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rowsField.setText("6");
+        rowsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rowsFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Kolumny:");
+
+        colsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        colsField.setText("6");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,27 +157,43 @@ public class GameWindow extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))))
+                                .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(TimerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(GenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(SolveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(GenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SolveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(LettersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -168,10 +204,19 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButtonActionPerformed
+        int cols = 6, rows = 6;
+        try{
+            cols = new Integer(colsField.getText());
+            rows = new Integer(rowsField.getText());
+        } catch (Exception e) {
+            Logger.append(">>> Błąd wartości rozmiaru planszy!" + NEW_LINE + 
+                    ">>> Stworzono planszę 6x6."+ NEW_LINE + NEW_LINE);
+        }
         letterTable = new LetterTable();
-        letterTable.generate(6, 6);
+        letterTable.generate(rows, cols);
+        Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
         Logger.append(letterTable.toString());
-        Logger.append(letterTable.calcPairs() + NEW_LINE);
+        Logger.append(LINE);
         Logger.append(NEW_LINE);
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
@@ -180,6 +225,8 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_PreviousButtonActionPerformed
 
     private void SolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveButtonActionPerformed
+       Logger.append("Solution: " + NEW_LINE);
+       Logger.append(LINE);
         ArrayList<LetterTable> A=new ArrayList<LetterTable>();
         try {
 //            A=letterTable.getNextTables();
@@ -194,7 +241,7 @@ public class GameWindow extends javax.swing.JFrame {
             if(ALT != null) for(LetterTable LT: ALT)
             {
                     Logger.append(LT.toString());
-                    Logger.append("----------------------" + NEW_LINE);
+                    Logger.append(LINE);
             }
             else Logger.append("Nie da sie. W najlepszym rozwiazaniu zostalo "+Algorithm.getMinLetters()+" liter." + NEW_LINE);
 
@@ -204,6 +251,10 @@ public class GameWindow extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_SolveButtonActionPerformed
+
+    private void rowsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rowsFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rowsFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,9 +298,14 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JButton PreviousButton;
     private javax.swing.JButton SolveButton;
     private javax.swing.JLabel TimerLabel;
+    private javax.swing.JTextField colsField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField rowsField;
     // End of variables declaration//GEN-END:variables
     private static final String NEW_LINE = "\n";
+    private static final String LINE = "----------------------" + NEW_LINE;
     private LetterTable letterTable;
     
     

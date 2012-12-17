@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+package spadajaceliterki;
+=======
 import java.util.ArrayList;
+
+>>>>>>> 86e1ce4ab65de0118e7b90768fd0e88e278faa97
 
 public class Algorithm {
 

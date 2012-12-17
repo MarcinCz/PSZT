@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package spadajaceliterki;
 
 public class Algorithm {
 
@@ -10,7 +10,6 @@ public class Algorithm {
 	    }
 	    return target;
 	}
-	
 	public static char[][] removePair(char[][] T, int Y1, int X1, int Y2, int X2)
 	{
 		for(;Y1>0;Y1--)
@@ -27,89 +26,5 @@ public class Algorithm {
 		
 		return T;
 	}
-	
-	public static ArrayList<LetterTable> IDA_Star(LetterTable Start)
-	{
-		
-		double CostLimit = Start.getLettersNumber();
-		MinLetters = Start.getLettersNumber();
-		ArrayList<LetterTable>Path = new ArrayList<LetterTable>();
-		Path.add(Start);
-		
-		//wywolujemy funkcje iteracyjnego przeszukiwania w glab ze zwiekszanym, co krok petli, limitem
-		while(true)
-		{
-			
-			S = DepthLimitedSearch(0, Path, CostLimit);
-			//Path = S.Path;
-			CostLimit = S.Cost;
-			if(S.Path != null) return S.Path;
-			if(CostLimit == Double.MAX_VALUE) return null;
-		}
-	
-	}
-	
-	private static Solution DepthLimitedSearch(double StartCost, ArrayList<LetterTable> Path, double CostLimit)
-	{
-		ExploredNodes++;//w tym miejscu mozna wypisywac na ekran ile wezlow odwiedzono
-		if(ExploredNodes%1000000==0) System.out.println(ExploredNodes);
-		
-		//bierzemy ostani element ze sciezki i ustawiamy jako sprawdzany wezel
-		LetterTable Node = Path.get(Path.size()-1);
-		if(Node.getLettersNumber()<MinLetters) MinLetters = Node.getLettersNumber();
-		//a tu mozna wypisac najlepsze jak dotad rozwiazanie
-		double MinimumCost = StartCost + Node.getLettersNumber();
-		
-		//jesli koszt przekracza limit to zwracamy ten koszt
-		if(MinimumCost > CostLimit)
-		{
-			
-			return S.newSolution(MinimumCost, null);
-		}
-		//jesli znaleziono rozwiazanie
-		if(Node.getLettersNumber()==0) return S.newSolution(CostLimit, Path);
-		
-		
-		double NextCostLimit = Double.MAX_VALUE;
-		//petla wywylujaca funkcje dla wszystkich nastepnych wezlow
-		for(LetterTable LT: Node.getNextTables())
-		{
-			int Pairs = LT.calcPairs();
-			
-			double NewCostLimit = Double.MAX_VALUE;
-			if(Pairs == 0)
-			{
-				continue; //jesli nie da sie znalesc pary w tym wezle to omijamy
-			}
-			double NewStartCost = StartCost + (double)(1/Pairs); //liczymy koszt
-			
-			ArrayList<LetterTable> NewPath=new ArrayList<LetterTable>(Path);
-			NewPath.add(LT);
-			
-			S = DepthLimitedSearch(NewStartCost, NewPath, CostLimit);
-			
-			//if(S.Path!=null) Path = S.Path;  //jesli znalazlo rozwiazanie to przypisujemy do Path
-			//else Path.remove(Path.size()-1); //jesli nie to usuwamy ostatnio dodany wezel
-			NewCostLimit = S.Cost;
-			
-			if(S.Path != null) //zwracamy ew. znalezione rozwiazanie
-			{
-				return S.newSolution(NewCostLimit, S.Path);
-			}
-			NextCostLimit = Math.min(NextCostLimit, NewCostLimit);
-		}
-		
-		
-		return S.newSolution(NextCostLimit, null);
-	}
-	public static int getExploredNodes() {
-		return ExploredNodes;
-	}
-	public static int getMinLetters() {
-		return MinLetters;
-	}
-	private static int MinLetters; //minimalna ilosc liter, ktora zostala na tablicy w trakcie wykonywania algorytmu
-	private static int ExploredNodes = 0; //ilosc odwiedzonych wezlow
-	private static Solution S = new Solution(); //klasa przechowujaca zmienne zwracane przez DLS
-	
+
 }

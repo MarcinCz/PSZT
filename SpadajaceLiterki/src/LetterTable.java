@@ -1,4 +1,4 @@
-
+package spadajaceliterki;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -160,10 +160,6 @@ public class LetterTable {
 	public void setLettersNumber(int L)
 	{
 		LettersNumber=L;
-	}
-	
-	public int getLettersNumber() {
-		return LettersNumber;
 	}
 	
 	private int LettersNumber;

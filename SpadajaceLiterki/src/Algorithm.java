@@ -78,19 +78,26 @@ public class Algorithm {
 			int Pairs = LT.calcPairs();
 			
 			double NewCostLimit = Double.MAX_VALUE;
+			double NewStartCost;
 			if(Pairs == 0)
 			{
-				continue; //jesli nie da sie znalesc pary w tym wezle to omijamy
+				if(LT.getLettersNumber()==0) 
+				{
+					NewStartCost = StartCost;
+				}
+				else continue; //jesli nie da sie znalesc pary w tym wezle to omijamy
 			}
-			double NewStartCost = StartCost + (double)(1/Pairs); //liczymy koszt
+			else
+			{
+				NewStartCost = StartCost + (double)(1/Pairs); //liczymy koszt
+			}
+			
 			
 			ArrayList<LetterTable> NewPath=new ArrayList<LetterTable>(Path);
 			NewPath.add(LT);
 			
 			S = DepthLimitedSearch(NewStartCost, NewPath, CostLimit);
 			
-			//if(S.Path!=null) Path = S.Path;  //jesli znalazlo rozwiazanie to przypisujemy do Path
-			//else Path.remove(Path.size()-1); //jesli nie to usuwamy ostatnio dodany wezel
 			NewCostLimit = S.Cost;
 			
 			if(S.Path != null) //zwracamy ew. znalezione rozwiazanie

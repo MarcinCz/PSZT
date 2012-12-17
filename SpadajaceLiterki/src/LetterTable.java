@@ -79,6 +79,7 @@ public class LetterTable {
 		{
 			for(int j=0;j<Width;j++)
 			{
+				if(Table[i][j]==' ') continue;
 				int iTemp=i+1;
 				int jTemp=j+1;
 				for(;iTemp<Height;iTemp++)
@@ -161,6 +162,9 @@ public class LetterTable {
 	
 	public int getLettersNumber() {
 		return LettersNumber;
+	}
+	public int getPairs() {
+		return Pairs;
 	}
 	
 	private int LettersNumber;

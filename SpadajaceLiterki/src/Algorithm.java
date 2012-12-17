@@ -33,17 +33,15 @@ public class Algorithm {
 		
 		double CostLimit = Start.getLettersNumber();
 		MinLetters = Start.getLettersNumber();
-		ArrayList<LetterTable>Path = new ArrayList<LetterTable>();
 		Path.add(Start);
 		
 		//wywolujemy funkcje iteracyjnego przeszukiwania w glab ze zwiekszanym, co krok petli, limitem
 		while(true)
 		{
-			
 			S = DepthLimitedSearch(0, Path, CostLimit);
-			//Path = S.Path;
+			Path = S.Path;
 			CostLimit = S.Cost;
-			if(S.Path != null) return S.Path;
+			if(Path != null) return Path;
 			if(CostLimit == Double.MAX_VALUE) return null;
 		}
 	
@@ -52,7 +50,6 @@ public class Algorithm {
 	private static Solution DepthLimitedSearch(double StartCost, ArrayList<LetterTable> Path, double CostLimit)
 	{
 		ExploredNodes++;//w tym miejscu mozna wypisywac na ekran ile wezlow odwiedzono
-		if(ExploredNodes%1000000==0) System.out.println(ExploredNodes);
 		
 		//bierzemy ostani element ze sciezki i ustawiamy jako sprawdzany wezel
 		LetterTable Node = Path.get(Path.size()-1);
@@ -76,27 +73,21 @@ public class Algorithm {
 		{
 			int Pairs = LT.calcPairs();
 			
-			double NewCostLimit = Double.MAX_VALUE;
-			if(Pairs == 0)
-			{
-				continue; //jesli nie da sie znalesc pary w tym wezle to omijamy
-			}
+			if(Pairs == 0) continue; //jesli nie da sie znalesc pary w tym wezle to omijamy
 			double NewStartCost = StartCost + (double)(1/Pairs); //liczymy koszt
+			Path.add(LT);
 			
-			ArrayList<LetterTable> NewPath=new ArrayList<LetterTable>(Path);
-			NewPath.add(LT);
+			S = DepthLimitedSearch(NewStartCost, Path, CostLimit);
 			
-			S = DepthLimitedSearch(NewStartCost, NewPath, CostLimit);
-			
-			//if(S.Path!=null) Path = S.Path;  //jesli znalazlo rozwiazanie to przypisujemy do Path
-			//else Path.remove(Path.size()-1); //jesli nie to usuwamy ostatnio dodany wezel
-			NewCostLimit = S.Cost;
+			if(S.Path!=null) Path = S.Path;  //jesli znalazlo rozwiazanie to przypisujemy do Path
+			else Path.remove(Path.size()-1); //jesli nie to usuwamy ostatnio dodany wezel
+			double NewCostLimit = S.Cost;
 			
 			if(S.Path != null) //zwracamy ew. znalezione rozwiazanie
 			{
-				return S.newSolution(NewCostLimit, S.Path);
+				return S.newSolution(NewCostLimit, Path);
 			}
-			NextCostLimit = Math.min(NextCostLimit, NewCostLimit);
+			NextCostLimit = NewCostLimit;
 		}
 		
 		
@@ -111,5 +102,4 @@ public class Algorithm {
 	private static int MinLetters; //minimalna ilosc liter, ktora zostala na tablicy w trakcie wykonywania algorytmu
 	private static int ExploredNodes = 0; //ilosc odwiedzonych wezlow
 	private static Solution S = new Solution(); //klasa przechowujaca zmienne zwracane przez DLS
-	
 }

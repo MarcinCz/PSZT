@@ -7,10 +7,8 @@ public class Solution {
 		Solution S=new Solution();
 		S.Cost = C;
 		S.Path = P;
-		
 		return S;
 	}
-
 	public double Cost;
 	public ArrayList<LetterTable> Path;
 }

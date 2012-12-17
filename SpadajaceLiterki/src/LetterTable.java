@@ -1,8 +1,5 @@
-
-
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JTextArea;
 
 
 public class LetterTable {
@@ -12,20 +9,20 @@ public class LetterTable {
 	 */
 	
 	
-	//tworzy pusta tablice literek NxM
+	//tworzy pusta tablice literek MxN
 	public void createEmpty(int N, int M)
 	{
-		Width = N;
-		Height = M;
+		Width = M;
+		Height = N;
 		Size = N*M;
 	}
 	
-	//generuje tablice literek NxM zapelniona literkami
+	//generuje tablice literek MxN zapelniona literkami
 	public void generate(int N, int M)
 	{
 		Table = new char[N][M];
-		Width = N;
-		Height = M;
+		Width = M;
+		Height = N;
 		Size = N*M;
 		LettersNumber = N*M;
 		
@@ -55,44 +52,40 @@ public class LetterTable {
 			
 			//bierzemy jeden z numerow ktory pozostal na liscie pozycji
 			Position=Positions.remove(Generator.nextInt(Positions.size()));
-			Table[(Position/Height)][(Position%Height)]=Letter;
+			Table[(Position/Width)][(Position%Width)]=Letter;
 			
 			//powtarzamy
 			Position=Positions.remove(Generator.nextInt(Positions.size()));
-			Table[(Position/Height)][(Position%Height)]=Letter;
+			Table[(Position/Width)][(Position%Width)]=Letter;
 		}
 		
 	}
-        
-	public String toString()
+	public void print()
 	{
-            String output = "";
-            for(int i=0;i<Width;i++)
-            {
-                    for(int j=0;j<Height;j++)
-                    {
-                            output += Table[i][j];
-                    }
-                    output += "\n";
-            }
-            return output;
+		for(int i=0;i<Height;i++)
+		{
+			for(int j=0;j<Width;j++)
+			{
+				System.out.print(Table[i][j]);
+			}
+			System.out.println();
+		}
 	}
-        
 	//liczy ile jest mozliwych par do wybrania
 	public int calcPairs()
 	{
 		
-		for(int i=0;i<Width;i++)
+		for(int i=0;i<Height;i++)
 		{
-			for(int j=0;j<Height;j++)
+			for(int j=0;j<Width;j++)
 			{
 				int iTemp=i+1;
 				int jTemp=j+1;
-				for(;iTemp<Width;iTemp++)
+				for(;iTemp<Height;iTemp++)
 				{
 					if(Table[i][j]==Table[iTemp][j]) Pairs++;
 				}
-				for(;jTemp<Height;jTemp++)
+				for(;jTemp<Width;jTemp++)
 				{
 					if(Table[i][j]==Table[i][jTemp]) Pairs++;
 				}
@@ -108,15 +101,17 @@ public class LetterTable {
 		char[][] TableTemp;
 		
 		//szukanie par
-		for(int i=0;i<Width;i++)
+		for(int i=0;i<Height;i++)
 		{
-			for(int j=0;j<Height;j++)
+			for(int j=0;j<Width;j++)
 			{
+				if(Table[i][j]==' ') continue;
+				
 				int iTemp=i+1;
 				int jTemp=j+1;
-				for(;iTemp<Width;iTemp++)
+				for(;iTemp<Height;iTemp++)
 				{
-					//jesli znajdzie pare w poziomie
+					//jesli znajdzie pare w pionie
 					if(Table[i][j]==Table[iTemp][j])
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.
@@ -125,15 +120,15 @@ public class LetterTable {
 						
 						//tworzy nowa tablice liter i dodaje do listy
 						LetterTable LTableTemp=new LetterTable();
-						LTableTemp.createEmpty(Width, Height);
+						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
 						Tables.add(LTableTemp);
 					}
 				}
-				for(;jTemp<Height;jTemp++)
+				for(;jTemp<Width;jTemp++)
 				{
-					//jesli znajdzie w pionie
+					//jesli znajdzie w poziomie
 					if(Table[i][j]==Table[i][jTemp]) 
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.
@@ -142,7 +137,7 @@ public class LetterTable {
 						
 						//tworzy nowa tablice liter i dodaje do listy
 						LetterTable LTableTemp=new LetterTable();
-						LTableTemp.createEmpty(Width, Height);
+						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
 						Tables.add(LTableTemp);
@@ -153,10 +148,12 @@ public class LetterTable {
 		}
 		return Tables;
 	}
+	
 	public void setTable(char[][] T)
 	{
 		Table=T;
 	}
+	
 	public void setLettersNumber(int L)
 	{
 		LettersNumber=L;

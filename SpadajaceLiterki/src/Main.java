@@ -24,8 +24,15 @@ public class Main {
 		ArrayList<LetterTable> ALT = Algorithm.IDA_Star(L);
 		if(ALT != null) for(LetterTable LT: ALT)
 		{
+			System.out.print("Usunieto: ");
+			for(Integer E: LT.getPointsDeleted())
+			{
+				System.out.print(E+" ");
+			}
+			System.out.println();
 			LT.print();
 			System.out.println("----------------------");
+			
 		}
 		else System.out.println("Nie da sie. W najlepszym rozwiazaniu zostalo "+Algorithm.getMinLetters()+" liter.");
 		

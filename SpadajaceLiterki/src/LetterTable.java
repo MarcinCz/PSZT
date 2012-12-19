@@ -15,6 +15,7 @@ public class LetterTable {
 		Width = M;
 		Height = N;
 		Size = N*M;
+		
 	}
 	
 	//generuje tablice literek MxN zapelniona literkami
@@ -124,6 +125,7 @@ public class LetterTable {
 						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
+						LTableTemp.addPointsDeleted(i, j, iTemp, j);
 						Tables.add(LTableTemp);
 					}
 				}
@@ -141,6 +143,7 @@ public class LetterTable {
 						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
+						LTableTemp.addPointsDeleted(i, j, i, jTemp);
 						Tables.add(LTableTemp);
 					}
 				}
@@ -166,7 +169,16 @@ public class LetterTable {
 	public int getPairs() {
 		return Pairs;
 	}
-	
+	public ArrayList<Integer> getPointsDeleted() {
+		return PointsDeleted;
+	}
+	public void addPointsDeleted(Integer Y1, Integer X1, Integer Y2, Integer X2) {
+		PointsDeleted.add(Y1);
+		PointsDeleted.add(X1);
+		PointsDeleted.add(Y2);
+		PointsDeleted.add(X2);
+	}
+	private ArrayList<Integer> PointsDeleted = new ArrayList<Integer>();//kolejnosc Y1,X1,Y2,X2
 	private int LettersNumber;
 	private int Pairs=0;
 	private int Size;

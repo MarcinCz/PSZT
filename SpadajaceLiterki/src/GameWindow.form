@@ -28,8 +28,8 @@
                   <Component id="jScrollPane2" pref="704" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="LettersPanel" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="ControlsPanel" min="-2" pref="327" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="ControlsPanel" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -41,8 +41,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="ControlsPanel" min="-2" max="-2" attributes="0"/>
                   <Component id="LettersPanel" max="32767" attributes="0"/>
+                  <Component id="ControlsPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" pref="328" max="32767" attributes="0"/>
@@ -55,10 +55,10 @@
     <Container class="javax.swing.JPanel" name="ControlsPanel">
       <Properties>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[362, 293]"/>
+          <Dimension value="[238, 276]"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[362, 293]"/>
+          <Dimension value="[238, 276]"/>
         </Property>
       </Properties>
 
@@ -69,12 +69,11 @@
               <Component id="GenerateButton" max="32767" attributes="0"/>
               <Component id="SolveButton" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="PreviousButton" min="-2" pref="162" max="-2" attributes="0"/>
+                  <Component id="PreviousButton" min="-2" pref="116" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="NextButton" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="rowsField" min="-2" pref="40" max="-2" attributes="0"/>

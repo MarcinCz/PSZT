@@ -101,14 +101,11 @@ public class LetterTable {
 				{
 					if(Table[i][j]==Table[iTemp][j]) 
                                         {
-                                            String l = "" + Table[i][j];
                                             Point p1 = new Point(j+1, i+1);
                                             Point p2 = new Point(j+1, iTemp+1);
                                             Pairs++;
-                                            if(!sameMap.contains(l, p1))
-                                                sameMap.add("" + Table[i][j], p1);
-                                            if(!sameMap.contains(l, p2))
-                                                sameMap.add("" + Table[i][j], p2);
+                                            sameMap.add(p1, p2);
+                                            sameMap.add(p2, p1);
                                         }
 				}
 				for(;jTemp<Width;jTemp++)
@@ -119,10 +116,8 @@ public class LetterTable {
                                             Point p1 = new Point(j+1, i+1);
                                             Point p2 = new Point(jTemp+1, i+1);
                                             Pairs++;
-                                            if(!sameMap.contains(l, p1))
-                                                sameMap.add("" + Table[i][j], p1);
-                                            if(!sameMap.contains(l, p2))
-                                                sameMap.add("" + Table[i][j], p2);
+                                            sameMap.add(p1, p2);
+                                            sameMap.add(p2, p1);
                                         }
 				}
 			}
@@ -221,45 +216,45 @@ public class LetterTable {
         
         public class SameLettersMap {
             
-            private Hashtable<String, ArrayList<Point>> sameList;
+            private Hashtable<Point, ArrayList<Point>> sameList;
             
             public SameLettersMap()
             {
-                sameList = new Hashtable<String, ArrayList<Point>>();
+                sameList = new Hashtable<Point, ArrayList<Point>>();
             }
             /**
-             * Dodaje Punkt p do Hashtable, wkładając go na koniec listy punktów dla danego Klucza
-             * @param s Klucz
-             * @param p Punkt
+             * Dodaje Punkt value do Hashtable, wkładając go na koniec listy punktów dla danego Klucza
+             * @param key Klucz
+             * @param value Punkt
              */
-            public void add(String s, Point p)
+            public void add(Point key, Point value)
             {
                 ArrayList<Point> temp;
-                if(sameList.containsKey(s))
+                if(sameList.containsKey(key))
                 {
-                    temp  = sameList.get(s);
-                    sameList.remove(s);
+                    temp  = sameList.get(key);
+                    sameList.remove(key);
                 } else temp = new ArrayList<Point>();
-                temp.add(p);
-                sameList.put(s, temp);
+                temp.add(value);
+                sameList.put(key, temp);
             }
             
-            public boolean contains(String s, Point p)
-            {
-                ArrayList<Point> temp = sameList.get(s);
-                if(temp!=null)
-                {
-                    for(int f=0;f<temp.size();f++)
-                    {
-                        if(temp.get(f).equals(p))
-                            return true;
-                    }
-                }
-                
-                return false;
-            }
+//            public boolean contains(String s, Point p)
+//            {
+//                ArrayList<Point> temp = sameList.get(s);
+//                if(temp!=null)
+//                {
+//                    for(int f=0;f<temp.size();f++)
+//                    {
+//                        if(temp.get(f).equals(p))
+//                            return true;
+//                    }
+//                }
+//                
+//                return false;
+//            }
             
-            public ArrayList<Point> get(String key)
+            public ArrayList<Point> get(Point key)
             {
                 return sameList.get(key);
             }
@@ -271,8 +266,8 @@ public class LetterTable {
             
             public String toString()
             {
-                String s = "";
-                Enumeration<String> keys= sameList.keys();
+                String s = "Pary:\n";
+                Enumeration<Point> keys= sameList.keys();
                 Collection<ArrayList<Point>> values = sameList.values();
                 Iterator iterator = values.iterator();
                 

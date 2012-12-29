@@ -65,7 +65,7 @@ public class GeoButton extends JButton implements MouseListener{
     
     private void setSameLettersBorder(Border b)
     {
-        ArrayList<Point> sameLettersCoordinates = gameWindow.getLetterTable().getSameMap().get(this.getText());
+        ArrayList<Point> sameLettersCoordinates = gameWindow.getLetterTable().getSameMap().get(this.coordinates);
         Hashtable<Point, GeoButton> points_to_buttons = gameWindow.getPoints_to_buttons();
         
         if(sameLettersCoordinates!=null)

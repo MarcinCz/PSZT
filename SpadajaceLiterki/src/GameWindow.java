@@ -4,8 +4,14 @@
  */
 
 
+import java.awt.GridLayout;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
@@ -67,33 +73,42 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LettersPanel = new javax.swing.JPanel();
+        ControlsPanel = new javax.swing.JPanel();
         TimerLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        rowsField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        colsField = new javax.swing.JTextField();
         GenerateButton = new javax.swing.JButton();
         SolveButton = new javax.swing.JButton();
         PreviousButton = new javax.swing.JButton();
         NextButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Logger = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        rowsField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        colsField = new javax.swing.JTextField();
+        LettersPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout LettersPanelLayout = new javax.swing.GroupLayout(LettersPanel);
-        LettersPanel.setLayout(LettersPanelLayout);
-        LettersPanelLayout.setHorizontalGroup(
-            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
-        );
-        LettersPanelLayout.setVerticalGroup(
-            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
-        );
+        ControlsPanel.setMaximumSize(new java.awt.Dimension(362, 293));
+        ControlsPanel.setMinimumSize(new java.awt.Dimension(362, 293));
 
+        TimerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TimerLabel.setText("Timer");
+
+        jLabel1.setText("Wiersze:");
+
+        rowsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rowsField.setText("6");
+        rowsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rowsFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Kolumny:");
+
+        colsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        colsField.setText("6");
 
         GenerateButton.setText("Nowa plansza");
         GenerateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -118,82 +133,90 @@ public class GameWindow extends javax.swing.JFrame {
 
         NextButton.setText("Dalej");
 
+        javax.swing.GroupLayout ControlsPanelLayout = new javax.swing.GroupLayout(ControlsPanel);
+        ControlsPanel.setLayout(ControlsPanelLayout);
+        ControlsPanelLayout.setHorizontalGroup(
+            ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TimerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(SolveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(ControlsPanelLayout.createSequentialGroup()
+                .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(ControlsPanelLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        ControlsPanelLayout.setVerticalGroup(
+            ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlsPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(TimerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(GenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SolveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         Logger.setEditable(false);
         Logger.setColumns(20);
         Logger.setFont(new java.awt.Font("Ubuntu Mono", 0, 15)); // NOI18N
         Logger.setRows(5);
         jScrollPane2.setViewportView(Logger);
 
-        jLabel1.setText("Wiersze:");
-
-        rowsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        rowsField.setText("6");
-        rowsField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rowsFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Kolumny:");
-
-        colsField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        colsField.setText("6");
+        javax.swing.GroupLayout LettersPanelLayout = new javax.swing.GroupLayout(LettersPanel);
+        LettersPanel.setLayout(LettersPanelLayout);
+        LettersPanelLayout.setHorizontalGroup(
+            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        LettersPanelLayout.setVerticalGroup(
+            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(LettersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TimerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SolveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addComponent(LettersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ControlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(TimerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(GenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SolveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(LettersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ControlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LettersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -204,7 +227,6 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButtonActionPerformed
-        int cols = 6, rows = 6;
         try{
             cols = new Integer(colsField.getText());
             rows = new Integer(rowsField.getText());
@@ -218,6 +240,11 @@ public class GameWindow extends javax.swing.JFrame {
         Logger.append(letterTable.toString());
         Logger.append(LINE);
         Logger.append(NEW_LINE);
+        Logger.append(NEW_LINE);
+        Logger.append(letterTable.getSameMap().toString());
+        Logger.append(NEW_LINE);
+                
+        makeBoard();
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
     private void PreviousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousButtonActionPerformed
@@ -291,6 +318,7 @@ public class GameWindow extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ControlsPanel;
     private javax.swing.JButton GenerateButton;
     private javax.swing.JPanel LettersPanel;
     private javax.swing.JTextArea Logger;
@@ -307,10 +335,83 @@ public class GameWindow extends javax.swing.JFrame {
     private static final String NEW_LINE = "\n";
     private static final String LINE = "----------------------" + NEW_LINE;
     private LetterTable letterTable;
-    
-    
+    private int cols = 6, rows = 6;
+    private ArrayList<GeoButton> letters;
+    private Hashtable<Point,GeoButton> points_to_buttons;
     
     public JTextArea getLoggerArea(){
         return Logger;
+    }
+    
+    public LetterTable getLetterTable() {
+        return letterTable;
+    }
+    
+    public ArrayList<GeoButton> getGeoButtons()
+    {
+        return letters;
+    }
+    
+    public Hashtable<Point,GeoButton> getPoints_to_buttons()
+    {
+        return points_to_buttons;
+    }
+    
+    private void makeBoard()
+    {
+        addLetters();
+        
+        GridLayout lettersLayout = new GridLayout(rows, cols);
+        LettersPanel.setLayout(lettersLayout);
+        LettersPanel.removeAll();
+        
+        for(JButton button : letters)
+        {
+            LettersPanel.add(button);
+        }
+        
+        LettersPanel.validate();
+    }
+    
+    private void addLetters()
+    {
+        letters = new ArrayList<GeoButton>(cols*rows);
+        points_to_buttons = new Hashtable<Point, GeoButton>();
+        char[][] table = letterTable.getTable();
+        ImageIcon letterImage;
+        
+        for(int i=0; i<table.length;i++)
+        {
+            for(int j=0; j<table[i].length;j++)
+            {
+//                letterImage = createImageIcon(table[i][j]+".png");
+                final GeoButton button = new GeoButton(table[i][j], j+1, i+1, this);
+                button.setVisible(true);
+                
+                letters.add(button);
+                points_to_buttons.put(button.getPoint(), button);
+            }
+        }
+        
+        
+    }
+   
+    private ImageIcon createImageIcon(String path)
+    {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+    
+    private void test()
+    {
+        JButton b = new JButton("test");
+        LettersPanel.add(b);
+        LettersPanel.repaint();
+        LettersPanel.getParent().validate();
     }
 }

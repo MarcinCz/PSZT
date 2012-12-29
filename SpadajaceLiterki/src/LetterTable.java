@@ -1,13 +1,20 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Random;
-
+import java.awt.Point;
+import java.util.Hashtable;
 
 public class LetterTable {
 	/*
-	 * N-wysokosc
-	 * M-szerokosc
+	 * N-wiersze
+	 * M-kolumny
 	 */
-	
+	public LetterTable()
+        {
+            sameMap = new SameLettersMap();
+        }
 	
 	//tworzy pusta tablice literek MxN
 	public void createEmpty(int N, int M)
@@ -20,6 +27,10 @@ public class LetterTable {
 	//generuje tablice literek MxN zapelniona literkami
 	public void generate(int N, int M)
 	{
+            //tworzenie hashtable z parami liter
+            sameMap = new SameLettersMap();
+            sameMap.clear();
+            
 		Table = new char[N][M];
 		Width = M;
 		Height = N;
@@ -88,15 +99,36 @@ public class LetterTable {
 				int jTemp=j+1;
 				for(;iTemp<Height;iTemp++)
 				{
-					if(Table[i][j]==Table[iTemp][j]) Pairs++;
+					if(Table[i][j]==Table[iTemp][j]) 
+                                        {
+                                            String l = "" + Table[i][j];
+                                            Point p1 = new Point(j+1, i+1);
+                                            Point p2 = new Point(j+1, iTemp+1);
+                                            Pairs++;
+                                            if(!sameMap.contains(l, p1))
+                                                sameMap.add("" + Table[i][j], p1);
+                                            if(!sameMap.contains(l, p2))
+                                                sameMap.add("" + Table[i][j], p2);
+                                        }
 				}
 				for(;jTemp<Width;jTemp++)
 				{
-					if(Table[i][j]==Table[i][jTemp]) Pairs++;
+					if(Table[i][j]==Table[i][jTemp])
+                                            {
+                                            String l = "" + Table[i][j];
+                                            Point p1 = new Point(j+1, i+1);
+                                            Point p2 = new Point(jTemp+1, i+1);
+                                            Pairs++;
+                                            if(!sameMap.contains(l, p1))
+                                                sameMap.add("" + Table[i][j], p1);
+                                            if(!sameMap.contains(l, p2))
+                                                sameMap.add("" + Table[i][j], p2);
+                                        }
 				}
 			}
 			
 		}
+                
 		return Pairs;
 	}
 	//zwraca wektor wszystkich mozliwych tablic po usunieciu pary
@@ -170,6 +202,14 @@ public class LetterTable {
 	public int getPairs() {
 		return Pairs;
 	}
+        
+        public char[][] getTable() {
+            return Table;
+        }
+        
+        public SameLettersMap getSameMap() {
+            return sameMap;
+        }
 	
 	private int LettersNumber;
 	private int Pairs=0;
@@ -177,5 +217,72 @@ public class LetterTable {
 	private int Width;
 	private int Height;
 	private char[][] Table;
+        private SameLettersMap sameMap;
+        
+        public class SameLettersMap {
+            
+            private Hashtable<String, ArrayList<Point>> sameList;
+            
+            public SameLettersMap()
+            {
+                sameList = new Hashtable<String, ArrayList<Point>>();
+            }
+            /**
+             * Dodaje Punkt p do Hashtable, wkładając go na koniec listy punktów dla danego Klucza
+             * @param s Klucz
+             * @param p Punkt
+             */
+            public void add(String s, Point p)
+            {
+                ArrayList<Point> temp;
+                if(sameList.containsKey(s))
+                {
+                    temp  = sameList.get(s);
+                    sameList.remove(s);
+                } else temp = new ArrayList<Point>();
+                temp.add(p);
+                sameList.put(s, temp);
+            }
+            
+            public boolean contains(String s, Point p)
+            {
+                ArrayList<Point> temp = sameList.get(s);
+                if(temp!=null)
+                {
+                    for(int f=0;f<temp.size();f++)
+                    {
+                        if(temp.get(f).equals(p))
+                            return true;
+                    }
+                }
+                
+                return false;
+            }
+            
+            public ArrayList<Point> get(String key)
+            {
+                return sameList.get(key);
+            }
+            
+            public void clear()
+            {
+                sameList.clear();
+            }
+            
+            public String toString()
+            {
+                String s = "";
+                Enumeration<String> keys= sameList.keys();
+                Collection<ArrayList<Point>> values = sameList.values();
+                Iterator iterator = values.iterator();
+                
+                while(keys.hasMoreElements())
+                {
+                    
+                    s += keys.nextElement() + iterator.next().toString() + "\n";
+                }
+                return s;
+            }
+        }
 	
 }

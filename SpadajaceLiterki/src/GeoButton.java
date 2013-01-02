@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
@@ -22,7 +23,6 @@ import javax.swing.border.Border;
 public class GeoButton extends JToggleButton implements MouseListener{
     private Point coordinates;
     private GameWindow gameWindow;
-    private boolean selected = false;
     private Border selectedBorder;
     
     public GeoButton(char c, int x, int y, GameWindow f)
@@ -42,20 +42,21 @@ public class GeoButton extends JToggleButton implements MouseListener{
     {
         return selectedBorder;
     }
+    
+    public void setSelectedBorder(Border b)
+    {
+        this.selectedBorder = b;
+    }
 
     @Override
     public void mouseClicked(MouseEvent me) {
         Point firstPoint = gameWindow.getSelectedPoint();
-        int count = gameWindow.getNumSelected();
-        
-        gameWindow.getLoggerArea().append(getText() + " " + coordinates + " zostalo klikniete\n");
+        gameWindow.log(getText() + " " + coordinates + " zostalo klikniete (zaznaczone = "
+                + this.isSelected() + ")\n");
                 
-        if(firstPoint==null && count<2)
+        if(firstPoint==null)
         {
-            
-            selected = true;
-            this.setSelected(selected);
-            gameWindow.increaseNumSelected();
+            this.setSelected(true);
             selectedBorder = BorderFactory.createLineBorder(Color.yellow, 3);
             this.setBorder(selectedBorder);
             gameWindow.setSelectedPoint(this.coordinates);
@@ -68,12 +69,10 @@ public class GeoButton extends JToggleButton implements MouseListener{
                 //usuwanie literek
                 removeLetterPair(firstPoint, this.coordinates);
                 gameWindow.setSelectedPoint(null);
-                gameWindow.setNumSelected(0);
             } else {
                 //odznaczenie literek
-                points_to_buttons.get(firstPoint).setBorder(null);
+                points_to_buttons.get(firstPoint).setSelectedBorder(null);
                 points_to_buttons.get(firstPoint).setSelected(false);
-                gameWindow.decreaseNumSelected();
                 this.setSelected(false);
                 gameWindow.setSelectedPoint(null);
             }
@@ -126,6 +125,18 @@ public class GeoButton extends JToggleButton implements MouseListener{
         gameWindow.getLetterTable().calcPairs();
         gameWindow.log("Liczba możliwych par: " +gameWindow.getLetterTable().getPairs() + "\n\n");
         gameWindow.makeBoard();
+        
+        int pairs = gameWindow.getLetterTable().getPairs();
+        if(pairs==0)
+        {
+            gameWindow.getTimer().stop();
+            gameWindow.log("KONIEC GRY\n\n");
+            
+            JOptionPane.showMessageDialog(gameWindow,
+                "Nie ma więcej par.\nKONIEC GRY",
+                "KONIEC GRY",
+                JOptionPane.PLAIN_MESSAGE);
+        }
     }
     
     private void removeLetter(Point p)

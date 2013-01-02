@@ -6,15 +6,21 @@
 
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
+import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -89,12 +95,14 @@ public class GameWindow extends javax.swing.JFrame {
         LettersPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Spadające literki");
 
         ControlsPanel.setMaximumSize(new java.awt.Dimension(238, 276));
         ControlsPanel.setMinimumSize(new java.awt.Dimension(238, 276));
 
+        TimerLabel.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         TimerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TimerLabel.setText("Timer");
+        TimerLabel.setText("00:00:00");
 
         jLabel1.setText("Wiersze:");
 
@@ -234,6 +242,7 @@ public class GameWindow extends javax.swing.JFrame {
             Logger.append(">>> Błąd wartości rozmiaru planszy!" + NEW_LINE + 
                     ">>> Stworzono planszę 6x6."+ NEW_LINE + NEW_LINE);
         }
+        
         letterTable = new LetterTable();
         letterTable.generate(rows, cols);
         Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
@@ -245,6 +254,8 @@ public class GameWindow extends javax.swing.JFrame {
 //        Logger.append(NEW_LINE);
                 
         makeBoard();
+        TimerLabel.setText(millisToTimeLabel(0));
+        startTimer();
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
     private void PreviousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousButtonActionPerformed
@@ -252,6 +263,10 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_PreviousButtonActionPerformed
 
     private void SolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveButtonActionPerformed
+       if(timer!=null)
+           timer.stop();
+        TimerLabel.setText("00:00:00");
+        
        Logger.append("Solution: " + NEW_LINE);
        Logger.append(LINE);
         ArrayList<LetterTable> A=new ArrayList<LetterTable>();
@@ -339,7 +354,8 @@ public class GameWindow extends javax.swing.JFrame {
     private ArrayList<GeoButton> letters;
     private Hashtable<Point,GeoButton> points_to_buttons;
     private Point selectedPoint;
-    private int numSelected = 0;
+    private long startTime;
+    private Timer timer;
     
     public JTextArea getLoggerArea(){
         return Logger;
@@ -347,6 +363,11 @@ public class GameWindow extends javax.swing.JFrame {
     
     public LetterTable getLetterTable() {
         return letterTable;
+    }
+    
+    public JPanel getLettersPanel()
+    {
+        return LettersPanel;
     }
     
     public ArrayList<GeoButton> getGeoButtons()
@@ -369,24 +390,9 @@ public class GameWindow extends javax.swing.JFrame {
         selectedPoint = p;
     }
     
-    public int getNumSelected()
+    public Timer getTimer()
     {
-        return numSelected;
-    }
-    
-    public void increaseNumSelected()
-    {
-        numSelected++;
-    }
-    
-    public void decreaseNumSelected()
-    {
-        numSelected--;
-    }
-    
-    public void setNumSelected(int n)
-    {
-        numSelected = n;
+        return timer;
     }
     
     public void log(String s)
@@ -436,16 +442,36 @@ public class GameWindow extends javax.swing.JFrame {
         
         
     }
-   
-    private ImageIcon createImageIcon(String path)
+    
+    private void startTimer()
     {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+        startTime = System.currentTimeMillis();
+        ActionListener al = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                long t = getTimePastMillis();
+                TimerLabel.setText(millisToTimeLabel(t));
+            }
+        };
+        
+        timer = new Timer(1000, al);
+        timer.start();
+    }
+    
+    private long getTimePastMillis()
+    {
+        return (System.currentTimeMillis() - startTime);
+    }
+    
+    private String millisToTimeLabel(long time)
+    {
+        return String.format("%02d:%02d:%02d", 
+            TimeUnit.MILLISECONDS.toHours(time),
+            TimeUnit.MILLISECONDS.toMinutes(time) -  
+            TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)), // The change is in this line
+            TimeUnit.MILLISECONDS.toSeconds(time) - 
+            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));  
     }
     
     public void test()

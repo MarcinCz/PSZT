@@ -89,7 +89,9 @@ public class LetterTable {
 	//liczy ile jest mozliwych par do wybrania
 	public int calcPairs()
 	{
-		
+		sameMap.clear();
+                Pairs = 0;
+                
 		for(int i=0;i<Height;i++)
 		{
 			for(int j=0;j<Width;j++)
@@ -204,6 +206,16 @@ public class LetterTable {
         
         public SameLettersMap getSameMap() {
             return sameMap;
+        }
+        
+        public void setLetter(char c,Point p)
+        {
+            Table[(int)p.getY()][(int)p.getX()] = c;
+        }
+        
+        public char getLetter(Point p)
+        {
+            return Table[(int)p.getY()][(int)p.getX()];
         }
 	
 	private int LettersNumber;

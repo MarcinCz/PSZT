@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -240,8 +241,8 @@ public class GameWindow extends javax.swing.JFrame {
         Logger.append(LINE);
         Logger.append(NEW_LINE);
         Logger.append(NEW_LINE);
-        Logger.append(letterTable.getSameMap().toString());
-        Logger.append(NEW_LINE);
+//        Logger.append(letterTable.getSameMap().toString());
+//        Logger.append(NEW_LINE);
                 
         makeBoard();
     }//GEN-LAST:event_GenerateButtonActionPerformed
@@ -337,6 +338,8 @@ public class GameWindow extends javax.swing.JFrame {
     private int cols = 6, rows = 6;
     private ArrayList<GeoButton> letters;
     private Hashtable<Point,GeoButton> points_to_buttons;
+    private Point selectedPoint;
+    private int numSelected = 0;
     
     public JTextArea getLoggerArea(){
         return Logger;
@@ -356,36 +359,75 @@ public class GameWindow extends javax.swing.JFrame {
         return points_to_buttons;
     }
     
-    private void makeBoard()
+    public Point getSelectedPoint()
+    {
+        return selectedPoint;
+    }
+    
+    public void setSelectedPoint(Point p)
+    {
+        selectedPoint = p;
+    }
+    
+    public int getNumSelected()
+    {
+        return numSelected;
+    }
+    
+    public void increaseNumSelected()
+    {
+        numSelected++;
+    }
+    
+    public void decreaseNumSelected()
+    {
+        numSelected--;
+    }
+    
+    public void setNumSelected(int n)
+    {
+        numSelected = n;
+    }
+    
+    public void log(String s)
+    {
+        this.Logger.append(s);
+    }
+    
+    public void makeBoard()
     {
         addLetters();
-        
         GridLayout lettersLayout = new GridLayout(rows, cols);
         LettersPanel.setLayout(lettersLayout);
         LettersPanel.removeAll();
+//        LettersPanel.validate();
+        LettersPanel.repaint();
         
-        for(JButton button : letters)
+        for(JToggleButton button : letters)
         {
+            button.validate();
             LettersPanel.add(button);
         }
         
-        LettersPanel.validate();
+        LettersPanel.revalidate();
     }
     
     private void addLetters()
     {
         letters = new ArrayList<GeoButton>(cols*rows);
+        letters.clear();
         points_to_buttons = new Hashtable<Point, GeoButton>();
+        points_to_buttons.clear();
         char[][] table = letterTable.getTable();
-        ImageIcon letterImage;
         
         for(int i=0; i<table.length;i++)
         {
             for(int j=0; j<table[i].length;j++)
             {
-//                letterImage = createImageIcon(table[i][j]+".png");
-                final GeoButton button = new GeoButton(table[i][j], j+1, i+1, this);
-                button.setVisible(true);
+                
+                GeoButton button = new GeoButton(table[i][j], j+1, i+1, this);
+                if(table[i][j]==' ')
+                    button.setVisible(false);
                 
                 letters.add(button);
                 points_to_buttons.put(button.getPoint(), button);
@@ -406,11 +448,20 @@ public class GameWindow extends javax.swing.JFrame {
         }
     }
     
-    private void test()
+    public void test()
     {
-        JButton b = new JButton("test");
-        LettersPanel.add(b);
-        LettersPanel.repaint();
-        LettersPanel.getParent().validate();
+        addLetters();
+        GridLayout lettersLayout = new GridLayout(rows, cols);
+        LettersPanel.setLayout(lettersLayout);
+        LettersPanel.removeAll();
+        LettersPanel.validate();
+        
+//        for(JToggleButton button : letters)
+//        {
+//            button.validate();
+//            LettersPanel.add(button);
+//        }
+//        
+//        LettersPanel.validate();
     }
 }

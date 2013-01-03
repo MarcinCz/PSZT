@@ -32,7 +32,7 @@ public class Algorithm {
 	public static ArrayList<LetterTable> IDA_Star(LetterTable Start)
 	{
 		
-		double CostLimit = Start.getLettersNumber();
+		double CostLimit = ((1+Start.getLettersNumber()/2)*Start.calcPairs());
 		MinLetters = Start.getLettersNumber();
 		ArrayList<LetterTable>Path = new ArrayList<LetterTable>();
 		Path.add(Start);
@@ -40,26 +40,30 @@ public class Algorithm {
 		//wywolujemy funkcje iteracyjnego przeszukiwania w glab ze zwiekszanym, co krok petli, limitem
 		while(true)
 		{
-			
+			LastCostLimit=CostLimit;
+			System.out.println("Koszt: "+CostLimit);
 			S = DepthLimitedSearch(0, Path, CostLimit);
 			//Path = S.Path;
 			CostLimit = S.Cost;
 			if(S.Path != null) return S.Path;
 			if(CostLimit == Double.MAX_VALUE) return null;
+			System.out.println("Odwiedzono "+LastExploredNodes);
+			LastExploredNodes=0;
 		}
 	
 	}
 	
 	private static Solution DepthLimitedSearch(double StartCost, ArrayList<LetterTable> Path, double CostLimit)
 	{
+		LastExploredNodes++;
 		ExploredNodes++;//w tym miejscu mozna wypisywac na ekran ile wezlow odwiedzono
-		if(ExploredNodes%1000000==0) System.out.println(ExploredNodes);
+		if(ExploredNodes%1000000==0) System.out.println("Lacznie "+ExploredNodes);
 		
 		//bierzemy ostani element ze sciezki i ustawiamy jako sprawdzany wezel
 		LetterTable Node = Path.get(Path.size()-1);
 		if(Node.getLettersNumber()<MinLetters) MinLetters = Node.getLettersNumber();
 		//a tu mozna wypisac najlepsze jak dotad rozwiazanie
-		double MinimumCost = StartCost + Node.getLettersNumber();
+		double MinimumCost = StartCost + (1+Node.getLettersNumber()/2)*Node.getPairs();
 		
 		//jesli koszt przekracza limit to zwracamy ten koszt
 		if(MinimumCost > CostLimit)
@@ -89,7 +93,7 @@ public class Algorithm {
 			}
 			else
 			{
-				NewStartCost = StartCost + (double)(1/Pairs); //liczymy koszt
+				NewStartCost = StartCost + Node.getLettersNumber()*(Node.getPairs()-LT.getPairs()); //liczymy koszt
 			}
 			
 			
@@ -105,6 +109,9 @@ public class Algorithm {
 				return S.newSolution(NewCostLimit, S.Path);
 			}
 			NextCostLimit = Math.min(NextCostLimit, NewCostLimit);
+			//if(NewCostLimit>CostLimit && NewCostLimit<NextCostLimit) NextCostLimit = NewCostLimit;
+			//na stronie dyskusji o IDA* na wikipedii ktos napisal, ze tak powinno byc zamiast 
+			//tej linijki wyzej, ale wg mnie dobrze jest tak jak jest na wiki
 		}
 		
 		
@@ -116,8 +123,16 @@ public class Algorithm {
 	public static int getMinLetters() {
 		return MinLetters;
 	}
-	private static int MinLetters; //minimalna ilosc liter, ktora zostala na tablicy w trakcie wykonywania algorytmu
-	private static int ExploredNodes = 0; //ilosc odwiedzonych wezlow
+	public static int getLastExploredNodes() {
+		return LastExploredNodes;
+	}
+	public static double getLastCostLimit() {
+		return LastCostLimit;
+	}
+	private static double LastCostLimit;
+	private static int MinLetters; //minimalna liczba liter, ktora zostala na tablicy w trakcie wykonywania algorytmu
+	private static int ExploredNodes = 0; //liczba odwiedzonych wezlow lacznie
+	private static int LastExploredNodes = 0; //liczba odwiedzonych wezlow w aktualnej(ostatniej) iteracji
 	private static Solution S = new Solution(); //klasa przechowujaca zmienne zwracane przez DLS
 	
 }

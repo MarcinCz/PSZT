@@ -75,7 +75,7 @@ public class LetterTable {
 	//liczy ile jest mozliwych par do wybrania
 	public int calcPairs()
 	{
-		
+		Pairs=0;
 		for(int i=0;i<Height;i++)
 		{
 			for(int j=0;j<Width;j++)

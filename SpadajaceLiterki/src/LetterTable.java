@@ -181,7 +181,7 @@ public class LetterTable {
 	public boolean isEqual(LetterTable tab)
 	{
 		char[][] tabTable=tab.getTable();
-		if (LettersNumber != tab.getLettersNumber())
+		if (C_cost!=tab.getC_cost() || Pairs!=tab.getPairs() || LettersNumber != tab.getLettersNumber() )
 			return false;
 		
 		for (int i=Width-1;i>=0;i--)

@@ -7,11 +7,11 @@ public class Main {
 	public static void main(String[] args) {
 
 		LetterTable L= new LetterTable();
-		L.generate(6,6);
+		L.generate(5,6);
 		L.print();
 		System.out.println("Rozwiazanie:\n");
 		
-		ArrayList<LetterTable> ALT = Algorithm.A_star(L);
+		ArrayList<LetterTable> ALT = Algorithm.A_Star(L);
 		if(ALT != null) for(LetterTable LT: ALT)
 		{
 			System.out.println("Par: "+LT.getPairs());
@@ -28,7 +28,7 @@ public class Main {
 		
 		System.out.println("Odwiedzono "+Algorithm.getLastExploredNodes()+" wezlow w ostatniej iteracji i "+
 		Algorithm.getExploredNodes()+" wezlow lacznie.");
-		System.out.println("Koszt uzyty w ostaniej iteracji to "+Algorithm.getLastCostLimit());
+		System.out.println("Koszt uzyty w ostatniej iteracji to "+Algorithm.getLastCostLimit());
 	}
 
 }

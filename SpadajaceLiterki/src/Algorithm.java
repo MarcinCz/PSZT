@@ -118,7 +118,7 @@ public class Algorithm {
 		return S.newSolution(NextCostLimit, null);
 	}
 	
-	public static ArrayList<LetterTable> A_star(LetterTable Start)
+	public static ArrayList<LetterTable> A_Star(LetterTable Start)
 	{
 		
 		 //Zbior G
@@ -129,6 +129,7 @@ public class Algorithm {
 		ArrayList<LetterTable>PSet = new ArrayList<LetterTable>();
 		Start.setC_cost(0);
 		Start.setParent(null);
+		Start.calcPairs();
 		//dodanie Start do G(0)
 		GSet.add(Start);
 		
@@ -148,7 +149,7 @@ public class Algorithm {
 				ExploredNodes++;
 				if(ExploredNodes%10000==0) System.out.println("Lacznie "+ExploredNodes);
 				LT.setParent(S);
-				LT.setC_cost(S.getC_cost()+S.getLettersNumber()*(S.calcPairs()-LT.calcPairs()));
+				LT.setC_cost(S.getC_cost()+S.getLettersNumber()*(S.getPairs()-LT.calcPairs()));
 				LT.setFull_cost(LT.getC_cost()+(1+LT.getLettersNumber()/2)*LT.getPairs());
 				PSet.add(LT);
 			}
@@ -204,9 +205,8 @@ public class Algorithm {
 			ArrayList<LetterTable> Path = new ArrayList<LetterTable>();
 			for(;;)
 			{
+				if(S==null) return Path;
 				LetterTable Parent=S.getParent();
-				if(Parent==null) return Path;
-				
 				Path.add(0, S);
 				S=Parent;
 			}

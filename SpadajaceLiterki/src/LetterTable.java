@@ -178,6 +178,47 @@ public class LetterTable {
 		PointsDeleted.add(Y2);
 		PointsDeleted.add(X2);
 	}
+	public boolean isEqual(LetterTable tab)
+	{
+		char[][] tabTable=tab.getTable();
+		if (LettersNumber != tab.getLettersNumber())
+			return false;
+		
+		for (int i=Width-1;i>=0;i--)
+		{
+			for(int j=Height-1;j>=0;j--)
+			{
+				if (Table[j][i] != tabTable[j][i])
+					return false;
+			}
+		}
+		return true;
+	}
+
+	public char[][] getTable() {
+		return Table;
+	}
+	public void setC_cost(int c_cost) {
+		C_cost = c_cost;
+	}
+	public int getC_cost() {
+		return C_cost;
+	}
+	public void setParent(LetterTable parent) {
+		Parent = parent;
+	}
+	public LetterTable getParent() {
+		return Parent;
+	}
+	public void setFull_cost(double full_cost) {
+		Full_cost = full_cost;
+	}
+	public double getFull_cost() {
+		return Full_cost;
+	}
+	private LetterTable Parent;
+	private int C_cost;
+	private double Full_cost;
 	private ArrayList<Integer> PointsDeleted = new ArrayList<Integer>();//kolejnosc Y1,X1,Y2,X2
 	private int LettersNumber;
 	private int Pairs=0;

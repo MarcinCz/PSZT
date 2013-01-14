@@ -117,6 +117,103 @@ public class Algorithm {
 		
 		return S.newSolution(NextCostLimit, null);
 	}
+	
+	public static ArrayList<LetterTable> A_star(LetterTable Start)
+	{
+		
+		 //Zbior G
+	
+		ArrayList<LetterTable>GSet = new ArrayList<LetterTable>();
+   
+		//Zbior P
+		ArrayList<LetterTable>PSet = new ArrayList<LetterTable>();
+		Start.setC_cost(0);
+		Start.setParent(null);
+		//dodanie Start do G(0)
+		GSet.add(Start);
+		
+		MinLetters = Start.getLettersNumber();
+		
+		//S(0)=Start;
+		LetterTable S=Start;
+
+		boolean FoundSolution=false;
+		while(!GSet.isEmpty())
+    	{
+			PSet.clear();
+			
+			//P(i)=rozwiniecie S(i)
+			for(LetterTable LT:S.getNextTables())
+			{
+				ExploredNodes++;
+				if(ExploredNodes%10000==0) System.out.println("Lacznie "+ExploredNodes);
+				LT.setParent(S);
+				LT.setC_cost(S.getC_cost()+S.getLettersNumber()*(S.calcPairs()-LT.calcPairs()));
+				LT.setFull_cost(LT.getC_cost()+(1+LT.getLettersNumber()/2)*LT.getPairs());
+				PSet.add(LT);
+			}
+			
+			//G(i) - S(i)
+			GSet.remove(S);
+			
+			//G(i) suma P(i)
+			boolean CanAdd;
+			for(LetterTable LTP:PSet)
+			{
+				CanAdd=true;
+				for(LetterTable LTG:GSet)
+				{
+					
+					if(LTG.isEqual(LTP))
+					{
+						CanAdd=false;
+						break;
+					}
+					
+				}
+				if(CanAdd) GSet.add(LTP);
+			}
+			
+			
+			double FullCost;
+			double MinCost=Double.MAX_VALUE;
+			//szukanie najlepszego S(i+1)
+			for(LetterTable LT : GSet)
+			{
+				FullCost=LT.getFull_cost();
+				if (FullCost<MinCost)
+				{
+					MinCost = FullCost;
+					S = LT;
+				}
+			}
+			if(S.getLettersNumber()<MinLetters)
+			{
+				MinLetters=S.getLettersNumber();
+			}
+			//Jesli S(i+1) jest stanem terminalnym
+			if(S.getLettersNumber()==0)
+			{
+				FoundSolution=true;
+				break;
+			}
+    	}
+		//odbudowa sciezki
+		if(FoundSolution)
+		{
+			ArrayList<LetterTable> Path = new ArrayList<LetterTable>();
+			for(;;)
+			{
+				LetterTable Parent=S.getParent();
+				if(Parent==null) return Path;
+				
+				Path.add(0, S);
+				S=Parent;
+			}
+		}
+		else return null;
+}
+		
 	public static int getExploredNodes() {
 		return ExploredNodes;
 	}
@@ -136,3 +233,5 @@ public class Algorithm {
 	private static Solution S = new Solution(); //klasa przechowujaca zmienne zwracane przez DLS
 	
 }
+
+

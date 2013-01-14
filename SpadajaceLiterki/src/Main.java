@@ -7,11 +7,11 @@ public class Main {
 	public static void main(String[] args) {
 
 		LetterTable L= new LetterTable();
-		L.generate(6, 5);
+		L.generate(6,6);
 		L.print();
 		System.out.println("Rozwiazanie:\n");
 		
-		ArrayList<LetterTable> ALT = Algorithm.IDA_Star(L);
+		ArrayList<LetterTable> ALT = Algorithm.A_star(L);
 		if(ALT != null) for(LetterTable LT: ALT)
 		{
 			System.out.println("Par: "+LT.getPairs());

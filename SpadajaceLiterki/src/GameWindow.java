@@ -13,9 +13,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,7 +39,7 @@ import javax.swing.text.html.HTMLDocument;
  *
  * @author karol
  */
-public class GameWindow extends javax.swing.JFrame implements ChangeListener{
+public class GameWindow extends javax.swing.JFrame implements ChangeListener, ActionListener{
     
     
 
@@ -121,8 +124,8 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
         statLastCount = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         statCost = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        radioA = new javax.swing.JRadioButton();
+        radioIDA = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         TimerLabel2 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -160,7 +163,6 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
 
         TimerLabel.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         TimerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TimerLabel.setText("00:00:00");
 
         jLabel1.setText("Wiersze:");
 
@@ -199,6 +201,11 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
         });
 
         NextButton.setText("Dalej");
+        NextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextButtonActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Wyjście");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -233,11 +240,19 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
         statCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statCost);
 
-        jLabel11.setText("jLabel11");
-        infoPanel.add(jLabel11);
+        radioA.setText("Algorytm A*");
+        radioA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioAActionPerformed(evt);
+            }
+        });
 
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        infoPanel.add(jLabel12);
+        radioIDA.setText("Algorytm IDA*");
+        radioIDA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioIDAActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ControlsPanelLayout = new javax.swing.GroupLayout(ControlsPanel);
         ControlsPanel.setLayout(ControlsPanelLayout);
@@ -262,7 +277,9 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
                     .addGroup(ControlsPanelLayout.createSequentialGroup()
                         .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(radioA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(radioIDA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ControlsPanelLayout.setVerticalGroup(
@@ -270,8 +287,12 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
             .addGroup(ControlsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(TimerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioA)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioIDA)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,7 +414,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(tabbedPane)
+                    .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -412,6 +433,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
                     ">>> Stworzono planszę 6x6."+ NEW_LINE + NEW_LINE);
         }
         
+        Logger.setText("");
         letterTable = new LetterTable();
         letterTable.generate(rows, cols);
         Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
@@ -423,35 +445,43 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
 //        Logger.append(NEW_LINE);
                 
         makeBoard();
+        if(timer!=null)
+            timer.stop();
         TimerLabel.setText(millisToTimeLabel(0));
-//        startTimer(TimerLabel);
+        SolveButton.setEnabled(true);
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
     private void PreviousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousButtonActionPerformed
-        // TODO add your handling code here:
+        if(Solution != null && iterator !=null && iterator.hasPrevious())
+        {
+            NextButton.setEnabled(true);
+            log(LINE);
+            log("Wstecz:\n\n");
+            letterTable=iterator.previous();
+            log(letterTable.toString());
+            makeBoard();
+        } else if(iterator !=null && !iterator.hasPrevious())
+            PreviousButton.setEnabled(false);
     }//GEN-LAST:event_PreviousButtonActionPerformed
 
     private void SolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveButtonActionPerformed
-       if(timer!=null)
-           timer.stop();
+//       if(timer!=null)
+//           timer.stop();
        TimerLabel.setText(millisToTimeLabel(0));
        startTimer(TimerLabel);
         
-       Logger.append("Solution: " + NEW_LINE);
+       Logger.append("Solution: " + algorithm + NEW_LINE);
        Logger.append(LINE);
         ArrayList<LetterTable> A=new ArrayList<LetterTable>();
         try {
-//            A=letterTable.getNextTables();
-//            for(int i=0;i<A.size();i++)
-//            {
-//                Logger.append(A.get(i).toString());
-//                Logger.append(A.get(i).calcPairs() + "\n");
-//                Logger.append("\n");    
-//            }  
-            
-            ArrayList<LetterTable> ALT = Algorithm.IDA_Star(letterTable);
+            if(algorithm.equals("A"))
+                Solution = Algorithm.A_Star(letterTable, this);
+            else
+                Solution = Algorithm.IDA_Star(letterTable, this);
+            iterator = Solution.listIterator();
+            iterator.next();
             timer.stop();
-            if(ALT != null) for(LetterTable LT: ALT)
+            if(Solution != null) for(LetterTable LT: Solution)
             {
                     Logger.append(LT.toString());
                     Logger.append(LINE);
@@ -460,7 +490,10 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
 
             Logger.append("Odwiedzono "+Algorithm.getExploredNodes()+" wezlow." + NEW_LINE);
         } catch (java.lang.NullPointerException e) {
-            Logger.append("Error! LetterTable is null!\n\n");
+            e.printStackTrace();
+            log("Exception: "+ e.getClass());
+        } finally {
+            SolveButton.setEnabled(false);
         }
         
     }//GEN-LAST:event_SolveButtonActionPerformed
@@ -505,9 +538,33 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // wyjście
+        timer.stop();
+        timer = null;
         setVisible(false);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
+        if(Solution != null && iterator !=null && iterator.hasNext())
+        {
+            PreviousButton.setEnabled(true);
+            log(LINE);
+            log("Dalej:\n\n");
+            letterTable=iterator.next();
+            log(letterTable.toString());
+            makeBoard();
+        } else if(iterator !=null && !iterator.hasNext())
+            NextButton.setEnabled(false);
+        
+    }//GEN-LAST:event_NextButtonActionPerformed
+
+    private void radioAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioAActionPerformed
+
+    private void radioIDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioIDAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioIDAActionPerformed
 
     /**
      * @param args the command line arguments
@@ -560,8 +617,6 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     private javax.swing.JPanel infoPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
@@ -571,6 +626,8 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton radioA;
+    private javax.swing.JRadioButton radioIDA;
     private javax.swing.JTextField rowsField;
     private javax.swing.JTextField rowsField2;
     private javax.swing.JLabel statCost;
@@ -589,6 +646,10 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     private long startTime;
     private Timer timer;
     private int tab =0;
+    private ArrayList<LetterTable> Solution;
+    private ListIterator<LetterTable> iterator;
+    private String algorithm = "A";
+    private ButtonGroup radios;
     
     public int getTab()
     {
@@ -636,6 +697,24 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     public void log(String s)
     {
         this.Logger.append(s);
+    }
+    
+    public void setStatSolution(String txt)
+    {
+        statSolution.setText(txt);
+    }
+    
+    public void statCount(String txt)
+    {
+        statSolution.setText(txt);
+    }
+    public void statLastCount(String txt)
+    {
+        statSolution.setText(txt);
+    }
+    public void statCost(String txt)
+    {
+        statSolution.setText(txt);
     }
     
     public void makeBoard()
@@ -689,7 +768,12 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
             @Override
             public void actionPerformed(ActionEvent ae) {
                 long t = getTimePastMillis();
+//                TimerLabel.setText(""+t);
                 l.setText(millisToTimeLabel(t));
+//                statSolution.setText(""+Algorithm.getMinLetters());
+//                statCount.setText(""+Algorithm.getExploredNodes());
+//                statLastCount.setText(""+Algorithm.getLastExploredNodes());
+//                statCost.setText(""+Algorithm.getLastCostLimit());
             }
         };
         
@@ -704,12 +788,13 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     
     private String millisToTimeLabel(long time)
     {
-        return String.format("%02d:%02d:%02d", 
+        return String.format("%02d:%02d:%02d:%02d", 
             TimeUnit.MILLISECONDS.toHours(time),
             TimeUnit.MILLISECONDS.toMinutes(time) -  
             TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)), // The change is in this line
             TimeUnit.MILLISECONDS.toSeconds(time) - 
-            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));  
+            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)),
+            TimeUnit.MILLISECONDS.toMillis(time)-TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(time)));  
     }
     
 //    private void populateInfoPanel()
@@ -737,6 +822,15 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
     private void initMore()
     {
         tabbedPane.addChangeListener(this);
+        SolveButton.setEnabled(false);
+        radioA.setActionCommand("A");
+        radioA.addActionListener(this);
+        radioIDA.setActionCommand("IDA");
+        radioIDA.addActionListener(this);
+        radios = new ButtonGroup();
+        radios.add(radioA);
+        radios.add(radioIDA);
+        TimerLabel.setText(millisToTimeLabel(0));
     }
 
     @Override
@@ -747,5 +841,11 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener{
           timer.stop();
         LettersPanel.removeAll();
         LettersPanel.revalidate();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        algorithm = ae.getActionCommand();
+//        log(algorithm+"\n");
     }
 }

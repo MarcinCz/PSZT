@@ -157,6 +157,7 @@ public class LetterTable {
 						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
+						LTableTemp.addPointsDeleted(i, j, iTemp, j);
 						Tables.add(LTableTemp);
 					}
 				}
@@ -174,6 +175,7 @@ public class LetterTable {
 						LTableTemp.createEmpty(Height,Width);
 						LTableTemp.setLettersNumber(LettersNumber-2);
 						LTableTemp.setTable(TableTemp);
+						LTableTemp.addPointsDeleted(i, j, i, jTemp);
 						Tables.add(LTableTemp);
 					}
 				}
@@ -200,9 +202,55 @@ public class LetterTable {
 		return Pairs;
 	}
         
+        public ArrayList<Integer> getPointsDeleted() {
+		return PointsDeleted;
+	}
+	public void addPointsDeleted(Integer Y1, Integer X1, Integer Y2, Integer X2) {
+		PointsDeleted.add(Y1);
+		PointsDeleted.add(X1);
+		PointsDeleted.add(Y2);
+		PointsDeleted.add(X2);
+	}
+        
+        public boolean isEqual(LetterTable tab)
+	{
+		char[][] tabTable=tab.getTable();
+		if (C_cost!=tab.getC_cost() || Pairs!=tab.getPairs() || LettersNumber != tab.getLettersNumber() )
+			return false;
+		
+		for (int i=Width-1;i>=0;i--)
+		{
+			for(int j=Height-1;j>=0;j--)
+			{
+				if (Table[j][i] != tabTable[j][i])
+					return false;
+			}
+		}
+		return true;
+	}
+        
         public char[][] getTable() {
             return Table;
         }
+        
+        public void setC_cost(int c_cost) {
+		C_cost = c_cost;
+	}
+	public int getC_cost() {
+		return C_cost;
+	}
+	public void setParent(LetterTable parent) {
+		Parent = parent;
+	}
+	public LetterTable getParent() {
+		return Parent;
+	}
+        public void setFull_cost(double full_cost) {
+		Full_cost = full_cost;
+	}
+	public double getFull_cost() {
+		return Full_cost;
+	}
         
         public SameLettersMap getSameMap() {
             return sameMap;
@@ -218,6 +266,10 @@ public class LetterTable {
             return Table[(int)p.getY()][(int)p.getX()];
         }
 	
+        private LetterTable Parent;
+	private int C_cost;
+	private double Full_cost;
+	private ArrayList<Integer> PointsDeleted = new ArrayList<Integer>();//kolejnosc Y1,X1,Y2,X2
 	private int LettersNumber;
 	private int Pairs=0;
 	private int Size;

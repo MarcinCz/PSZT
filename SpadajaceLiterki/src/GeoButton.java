@@ -29,8 +29,16 @@ public class GeoButton extends JToggleButton implements MouseListener{
     {
         this.setText("" + c);
         this.coordinates = new Point(x, y);
-        this.addMouseListener(this);
         this.gameWindow = f;
+        if(gameWindow.getTab()==1){
+            this.addMouseListener(this);
+        } else {
+            MouseListener[] mouse = this.getMouseListeners();
+            for(int i=0;i<mouse.length;i++)
+            {
+                this.removeMouseListener(mouse[i]);
+            }
+        }
     }
     
     public Point getPoint()

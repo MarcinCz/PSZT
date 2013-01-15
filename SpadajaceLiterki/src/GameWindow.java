@@ -4,6 +4,8 @@
  */
 
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -13,22 +15,35 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.html.HTMLDocument;
 
 /**
  *
  * @author karol
  */
-public class GameWindow extends javax.swing.JFrame {
+public class GameWindow extends javax.swing.JFrame implements ChangeListener{
+    
+    
 
+//    JLabel time = new JLabel("-");
+//    JLabel lettersRemaining = new JLabel("-");
+//    JLabel nodes = new JLabel("-");
+//    JLabel currentCost = new JLabel("-");
     /**
      * @param args the command line arguments
      */
@@ -39,21 +54,22 @@ public class GameWindow extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            // Set System L&F
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (UnsupportedLookAndFeelException e) {
+           // handle exception
         }
+        catch (ClassNotFoundException e) {
+           // handle exception
+        }
+        catch (InstantiationException e) {
+           // handle exception
+        }
+        catch (IllegalAccessException e) {
+           // handle exception
+        }                                                                                                                                                                                           
         //</editor-fold>
 
         /* Create and display the form */
@@ -69,6 +85,7 @@ public class GameWindow extends javax.swing.JFrame {
      */
     public GameWindow() {
         initComponents();
+        initMore();
     }
 
     /**
@@ -80,6 +97,10 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Logger = new javax.swing.JTextArea();
+        LettersPanel = new javax.swing.JPanel();
+        tabbedPane = new javax.swing.JTabbedPane();
         ControlsPanel = new javax.swing.JPanel();
         TimerLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -90,15 +111,52 @@ public class GameWindow extends javax.swing.JFrame {
         SolveButton = new javax.swing.JButton();
         PreviousButton = new javax.swing.JButton();
         NextButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        Logger = new javax.swing.JTextArea();
-        LettersPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        infoPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        statSolution = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        statCount = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        statLastCount = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        statCost = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        TimerLabel2 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        rowsField2 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        colsField2 = new javax.swing.JTextField();
+        GenerateButton2 = new javax.swing.JButton();
+        exitBtn2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Spadające literki");
 
+        Logger.setEditable(false);
+        Logger.setColumns(20);
+        Logger.setFont(new java.awt.Font("Ubuntu Mono", 0, 15)); // NOI18N
+        Logger.setRows(5);
+        jScrollPane2.setViewportView(Logger);
+
+        javax.swing.GroupLayout LettersPanelLayout = new javax.swing.GroupLayout(LettersPanel);
+        LettersPanel.setLayout(LettersPanelLayout);
+        LettersPanelLayout.setHorizontalGroup(
+            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        LettersPanelLayout.setVerticalGroup(
+            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 302, Short.MAX_VALUE)
+        );
+
+        tabbedPane.setName(""); // NOI18N
+
         ControlsPanel.setMaximumSize(new java.awt.Dimension(238, 276));
         ControlsPanel.setMinimumSize(new java.awt.Dimension(238, 276));
+        ControlsPanel.setName("Rozwiazanie"); // NOI18N
 
         TimerLabel.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         TimerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -142,33 +200,79 @@ public class GameWindow extends javax.swing.JFrame {
 
         NextButton.setText("Dalej");
 
+        jButton1.setText("Wyjście");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        infoPanel.setLayout(new java.awt.GridLayout(5, 2, 4, 0));
+
+        jLabel3.setText("Najlepsze rozwiązanie:");
+        infoPanel.add(jLabel3);
+
+        statSolution.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoPanel.add(statSolution);
+
+        jLabel5.setText("Odwiedzone węzły:");
+        infoPanel.add(jLabel5);
+
+        statCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoPanel.add(statCount);
+
+        jLabel7.setText("Ostatnie węzły:");
+        infoPanel.add(jLabel7);
+
+        statLastCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoPanel.add(statLastCount);
+
+        jLabel9.setText("Aktualny koszt:");
+        infoPanel.add(jLabel9);
+
+        statCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoPanel.add(statCost);
+
+        jLabel11.setText("jLabel11");
+        infoPanel.add(jLabel11);
+
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoPanel.add(jLabel12);
+
         javax.swing.GroupLayout ControlsPanelLayout = new javax.swing.GroupLayout(ControlsPanel);
         ControlsPanel.setLayout(ControlsPanelLayout);
         ControlsPanelLayout.setHorizontalGroup(
             ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(TimerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(SolveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(ControlsPanelLayout.createSequentialGroup()
-                .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(ControlsPanelLayout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SolveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(ControlsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(colsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ControlsPanelLayout.createSequentialGroup()
+                        .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(NextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         ControlsPanelLayout.setVerticalGroup(
             ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ControlsPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addComponent(TimerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
+                .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rowsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
@@ -182,50 +286,115 @@ public class GameWindow extends javax.swing.JFrame {
                 .addGroup(ControlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PreviousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        tabbedPane.addTab("Rozwiązanie", ControlsPanel);
+        ControlsPanel.getAccessibleContext().setAccessibleName("Rozwiazanie");
+
+        TimerLabel2.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
+        TimerLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TimerLabel2.setText("00:00:00");
+
+        jLabel17.setText("Wiersze:");
+
+        rowsField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rowsField2.setText("6");
+        rowsField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rowsField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText("Kolumny:");
+
+        colsField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        colsField2.setText("6");
+
+        GenerateButton2.setText("Nowa plansza");
+        GenerateButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GenerateButton2ActionPerformed(evt);
+            }
+        });
+
+        exitBtn2.setText("Wyjście");
+        exitBtn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtn2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TimerLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                    .addComponent(exitBtn2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(GenerateButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rowsField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(colsField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TimerLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rowsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(colsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(GenerateButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exitBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        Logger.setEditable(false);
-        Logger.setColumns(20);
-        Logger.setFont(new java.awt.Font("Ubuntu Mono", 0, 15)); // NOI18N
-        Logger.setRows(5);
-        jScrollPane2.setViewportView(Logger);
-
-        javax.swing.GroupLayout LettersPanelLayout = new javax.swing.GroupLayout(LettersPanel);
-        LettersPanel.setLayout(LettersPanelLayout);
-        LettersPanelLayout.setHorizontalGroup(
-            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        LettersPanelLayout.setVerticalGroup(
-            LettersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        tabbedPane.addTab("Gra", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LettersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ControlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                    .addComponent(LettersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(376, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(419, Short.MAX_VALUE)
+                    .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LettersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ControlsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(LettersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(tabbedPane)
+                    .addContainerGap()))
         );
 
         TitledBorder title = BorderFactory.createTitledBorder("Algorithm log:");
@@ -255,7 +424,7 @@ public class GameWindow extends javax.swing.JFrame {
                 
         makeBoard();
         TimerLabel.setText(millisToTimeLabel(0));
-        startTimer();
+//        startTimer(TimerLabel);
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
     private void PreviousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousButtonActionPerformed
@@ -265,7 +434,8 @@ public class GameWindow extends javax.swing.JFrame {
     private void SolveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolveButtonActionPerformed
        if(timer!=null)
            timer.stop();
-        TimerLabel.setText("00:00:00");
+       TimerLabel.setText(millisToTimeLabel(0));
+       startTimer(TimerLabel);
         
        Logger.append("Solution: " + NEW_LINE);
        Logger.append(LINE);
@@ -280,6 +450,7 @@ public class GameWindow extends javax.swing.JFrame {
 //            }  
             
             ArrayList<LetterTable> ALT = Algorithm.IDA_Star(letterTable);
+            timer.stop();
             if(ALT != null) for(LetterTable LT: ALT)
             {
                     Logger.append(LT.toString());
@@ -297,6 +468,46 @@ public class GameWindow extends javax.swing.JFrame {
     private void rowsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rowsFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rowsFieldActionPerformed
+
+    private void rowsField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rowsField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rowsField2ActionPerformed
+
+    private void GenerateButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButton2ActionPerformed
+        try{
+            cols = new Integer(colsField2.getText());
+            rows = new Integer(rowsField2.getText());
+        } catch (Exception e) {
+            Logger.append(">>> Błąd wartości rozmiaru planszy!" + NEW_LINE + 
+                    ">>> Stworzono planszę 6x6."+ NEW_LINE + NEW_LINE);
+        }
+        
+        letterTable = new LetterTable();
+        letterTable.generate(rows, cols);
+        Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
+        Logger.append(letterTable.toString());
+        Logger.append(LINE);
+        Logger.append(NEW_LINE);
+        Logger.append(NEW_LINE);
+//        Logger.append(letterTable.getSameMap().toString());
+//        Logger.append(NEW_LINE);
+                
+        makeBoard();
+        TimerLabel2.setText(millisToTimeLabel(0));
+        startTimer(TimerLabel2);
+    }//GEN-LAST:event_GenerateButton2ActionPerformed
+
+    private void exitBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtn2ActionPerformed
+        // wyjście
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_exitBtn2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // wyjście
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,17 +546,38 @@ public class GameWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlsPanel;
     private javax.swing.JButton GenerateButton;
+    private javax.swing.JButton GenerateButton2;
     private javax.swing.JPanel LettersPanel;
     private javax.swing.JTextArea Logger;
     private javax.swing.JButton NextButton;
     private javax.swing.JButton PreviousButton;
     private javax.swing.JButton SolveButton;
     private javax.swing.JLabel TimerLabel;
+    private javax.swing.JLabel TimerLabel2;
     private javax.swing.JTextField colsField;
+    private javax.swing.JTextField colsField2;
+    private javax.swing.JButton exitBtn2;
+    private javax.swing.JPanel infoPanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField rowsField;
+    private javax.swing.JTextField rowsField2;
+    private javax.swing.JLabel statCost;
+    private javax.swing.JLabel statCount;
+    private javax.swing.JLabel statLastCount;
+    private javax.swing.JLabel statSolution;
+    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
     private static final String NEW_LINE = "\n";
     private static final String LINE = "----------------------" + NEW_LINE;
@@ -356,6 +588,12 @@ public class GameWindow extends javax.swing.JFrame {
     private Point selectedPoint;
     private long startTime;
     private Timer timer;
+    private int tab =0;
+    
+    public int getTab()
+    {
+        return tab;
+    }
     
     public JTextArea getLoggerArea(){
         return Logger;
@@ -443,7 +681,7 @@ public class GameWindow extends javax.swing.JFrame {
         
     }
     
-    private void startTimer()
+    private void startTimer(final JLabel l)
     {
         startTime = System.currentTimeMillis();
         ActionListener al = new ActionListener() {
@@ -451,7 +689,7 @@ public class GameWindow extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 long t = getTimePastMillis();
-                TimerLabel.setText(millisToTimeLabel(t));
+                l.setText(millisToTimeLabel(t));
             }
         };
         
@@ -474,20 +712,40 @@ public class GameWindow extends javax.swing.JFrame {
             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));  
     }
     
-    public void test()
+//    private void populateInfoPanel()
+//    {
+//        JPanel leftCol = new JPanel();
+//        leftCol.setLayout(new BoxLayout(leftCol, BoxLayout.PAGE_AXIS));
+//        JPanel rightCol = new JPanel();
+//        rightCol.setLayout(new BoxLayout(rightCol, BoxLayout.PAGE_AXIS));
+//        infoPanel.setLayout(new BorderLayout());
+//        leftCol.add(new JLabel("Czas:"), BorderLayout.LINE_START);
+//        rightCol.add(time, BorderLayout.LINE_END);
+//        leftCol.add(new JLabel("Pozostałe litery:"), BorderLayout.LINE_START);
+//        rightCol.add(lettersRemaining, BorderLayout.LINE_END);
+//        leftCol.add(new JLabel("Odwiedzone węzły:"), BorderLayout.LINE_START);
+//        rightCol.add(nodes, BorderLayout.LINE_END);
+//        leftCol.add(new JLabel("Aktualny koszt:"), BorderLayout.LINE_START);
+//        rightCol.add(currentCost, BorderLayout.LINE_END);
+//        rightCol.revalidate();
+//        leftCol.revalidate();
+//        infoPanel.add(leftCol, BorderLayout.LINE_START);
+//        infoPanel.add(rightCol, BorderLayout.LINE_END);
+//        infoPanel.revalidate();
+//    }
+    
+    private void initMore()
     {
-        addLetters();
-        GridLayout lettersLayout = new GridLayout(rows, cols);
-        LettersPanel.setLayout(lettersLayout);
+        tabbedPane.addChangeListener(this);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent ce) {
+        JTabbedPane sourceTabbedPane = (JTabbedPane) ce.getSource();
+        tab = sourceTabbedPane.getSelectedIndex();
+        if(timer != null)
+          timer.stop();
         LettersPanel.removeAll();
-        LettersPanel.validate();
-        
-//        for(JToggleButton button : letters)
-//        {
-//            button.validate();
-//            LettersPanel.add(button);
-//        }
-//        
-//        LettersPanel.validate();
+        LettersPanel.revalidate();
     }
 }

@@ -75,9 +75,9 @@ public class LetterTable {
 	public String toString()
 	{
             String output = "";
-            for(int i=0;i<Width;i++)
+            for(int i=0;i<Height;i++)
             {
-                    for(int j=0;j<Height;j++)
+                    for(int j=0;j<Width;j++)
                     {
                             output += Table[i][j];
                     }
@@ -114,7 +114,7 @@ public class LetterTable {
 				{
 					if(Table[i][j]==Table[i][jTemp])
                                             {
-                                            String l = "" + Table[i][j];
+                                            
                                             Point p1 = new Point(j+1, i+1);
                                             Point p2 = new Point(jTemp+1, i+1);
                                             Pairs++;
@@ -149,8 +149,8 @@ public class LetterTable {
 					if(Table[i][j]==Table[iTemp][j])
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.
-						TableTemp=Algorithm.cloneArray(Table);
-						Algorithm.removePair(TableTemp, i, j, iTemp, j);
+						TableTemp=Alg.cloneArray(Table);
+						Alg.removePair(TableTemp, i, j, iTemp, j);
 						
 						//tworzy nowa tablice liter i dodaje do listy
 						LetterTable LTableTemp=new LetterTable();
@@ -167,8 +167,8 @@ public class LetterTable {
 					if(Table[i][j]==Table[i][jTemp]) 
 					{
 						//tworzy nowa tablice char[][] i usuwa pare el.
-						TableTemp=Algorithm.cloneArray(Table);
-						Algorithm.removePair(TableTemp, i, j, i, jTemp);
+						TableTemp=Alg.cloneArray(Table);
+						Alg.removePair(TableTemp, i, j, i, jTemp);
 						
 						//tworzy nowa tablice liter i dodaje do listy
 						LetterTable LTableTemp=new LetterTable();
@@ -245,10 +245,10 @@ public class LetterTable {
 	public LetterTable getParent() {
 		return Parent;
 	}
-        public void setFull_cost(double full_cost) {
+        public void setFull_cost(int full_cost) {
 		Full_cost = full_cost;
 	}
-	public double getFull_cost() {
+	public int getFull_cost() {
 		return Full_cost;
 	}
         
@@ -268,7 +268,7 @@ public class LetterTable {
 	
         private LetterTable Parent;
 	private int C_cost;
-	private double Full_cost;
+	private int Full_cost;
 	private ArrayList<Integer> PointsDeleted = new ArrayList<Integer>();//kolejnosc Y1,X1,Y2,X2
 	private int LettersNumber;
 	private int Pairs=0;
@@ -276,33 +276,34 @@ public class LetterTable {
 	private int Width;
 	private int Height;
 	private char[][] Table;
-        private SameLettersMap sameMap;
+	private Algorithm Alg=new Algorithm();
+	private SameLettersMap sameMap;
         
-        public class SameLettersMap {
-            
-            private Hashtable<Point, ArrayList<Point>> sameList;
-            
-            public SameLettersMap()
+    public class SameLettersMap {
+        
+        private Hashtable<Point, ArrayList<Point>> sameList;
+        
+        public SameLettersMap()
+        {
+            sameList = new Hashtable<Point, ArrayList<Point>>();
+        }
+        /**
+         * Dodaje Punkt value do Hashtable, wkładając go na koniec listy punktów dla danego Klucza
+         * @param key Klucz
+         * @param value Punkt
+         */
+        public void add(Point key, Point value)
+        {
+            ArrayList<Point> temp;
+            if(sameList.containsKey(key))
             {
-                sameList = new Hashtable<Point, ArrayList<Point>>();
-            }
-            /**
-             * Dodaje Punkt value do Hashtable, wkładając go na koniec listy punktów dla danego Klucza
-             * @param key Klucz
-             * @param value Punkt
-             */
-            public void add(Point key, Point value)
-            {
-                ArrayList<Point> temp;
-                if(sameList.containsKey(key))
-                {
-                    temp  = sameList.get(key);
-                    sameList.remove(key);
-                } else temp = new ArrayList<Point>();
-                temp.add(value);
-                sameList.put(key, temp);
-            }
-            
+                temp  = sameList.get(key);
+                sameList.remove(key);
+            } else temp = new ArrayList<Point>();
+            temp.add(value);
+            sameList.put(key, temp);
+        }
+        
 //            public boolean contains(String s, Point p)
 //            {
 //                ArrayList<Point> temp = sameList.get(s);
@@ -317,31 +318,31 @@ public class LetterTable {
 //                
 //                return false;
 //            }
-            
-            public ArrayList<Point> get(Point key)
-            {
-                return sameList.get(key);
-            }
-            
-            public void clear()
-            {
-                sameList.clear();
-            }
-            
-            public String toString()
-            {
-                String s = "Pary:\n";
-                Enumeration<Point> keys= sameList.keys();
-                Collection<ArrayList<Point>> values = sameList.values();
-                Iterator iterator = values.iterator();
-                
-                while(keys.hasMoreElements())
-                {
-                    
-                    s += keys.nextElement() + iterator.next().toString() + "\n";
-                }
-                return s;
-            }
+        
+        public ArrayList<Point> get(Point key)
+        {
+            return sameList.get(key);
         }
+        
+        public void clear()
+        {
+            sameList.clear();
+        }
+        
+        public String toString()
+        {
+            String s = "Pary:\n";
+            Enumeration<Point> keys= sameList.keys();
+            Collection<ArrayList<Point>> values = sameList.values();
+            Iterator<ArrayList<Point>> iterator = values.iterator();
+            
+            while(keys.hasMoreElements())
+            {
+                
+                s += keys.nextElement() + iterator.next().toString() + "\n";
+            }
+            return s;
+        }
+    }
 	
 }

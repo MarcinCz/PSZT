@@ -6,25 +6,30 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * Implementująca przycisk posiadający współrzędne w dwu wymiarowym układzie odniesienia
  * @author karol
  */
 public class GeoButton extends JToggleButton implements MouseListener{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Point coordinates;
     private GameWindow gameWindow;
     private Border selectedBorder;
     
+    /**
+     * Tworzy przycisk z tekstem, współrzędnymi i uchwytem, do okna, w którym jest wyświetlany
+     * @param c litera wstawiana jako tekst przycisku
+     * @param x wspolrzedna pozioma x
+     * @param y wspolrzedna pionowa y
+     * @param f uchwyt do glownego okna, ktorym przycisk jest wyswietlany
+     */
     public GeoButton(char c, int x, int y, GameWindow f)
     {
         this.setText("" + c);
@@ -41,21 +46,39 @@ public class GeoButton extends JToggleButton implements MouseListener{
         }
     }
     
+    /**
+     * Zwraca wpolrzedne przycisku w postaci obiektu Point
+     * @return 
+     */
     public Point getPoint()
     {
         return coordinates;
     }
     
+    /**
+     * Zwraca obramowanie przycisku, kiedy jest zaznaczony
+     * @return 
+     */
     public Border getSelectedBorder()
     {
         return selectedBorder;
     }
     
+    /**
+     * Ustawia obramowanie przycisku, kiedy jest zaznaczony
+     * @return 
+     */
     public void setSelectedBorder(Border b)
     {
         this.selectedBorder = b;
     }
 
+    /**
+     * Obsluga klikniecia myszka na przycisk. Jesli wczesniej nie kliknieto zadnego przycisku, to zmienia obramowanie przycisku.
+     * W przeciwnym wypadku, sprawdza, czy poprzednio klikniety przycisk, to przycisk z identyczna liteka. Jesli tak, to przyciski
+     * sa zdejmowane. W przeciwnym wypadku, oba przyciski zostaja odznaczone.
+     * @param me 
+     */
     @Override
     public void mouseClicked(MouseEvent me) {
         Point firstPoint = gameWindow.getSelectedPoint();
@@ -86,15 +109,25 @@ public class GeoButton extends JToggleButton implements MouseListener{
             }
         }
     }
-
+    
+    /*
+     * Funkcja nie obslugiwana
+     */
     @Override
     public void mousePressed(MouseEvent me) {
     }
 
+    /*
+     * Funkcja nie obslugiwana
+     */
     @Override
     public void mouseReleased(MouseEvent me) {
     }
 
+    /*
+     * Obsluguje zdarzenie najechania myszka na przycisk. Ustawia szczegolne obramowanie przyciskow o 
+     * wsporzednej x lub y takiej samej jak wporzedna x lub y przycisku, na ktory najechano myszka.
+     */
     @Override
     public void mouseEntered(MouseEvent me) {
         this.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
@@ -102,12 +135,21 @@ public class GeoButton extends JToggleButton implements MouseListener{
         
     }
 
+    /*
+     * Obsluguje zdarzenie odjechania myszka znad przycisku. Usuwa szczegolne obramowanie przyciskow o 
+     * wsporzednej x lub y takiej samej jak wporzedna x lub y przycisku, znad ktorego przesunieto myszke.
+     */
     @Override
     public void mouseExited(MouseEvent me) {
         this.setBorder(selectedBorder);
         setSameLettersBorder(null);
     }
     
+    /**
+     * Ustawia szczegolne obramowanie przyciskow o wspolrzednej x lub y identycznej ze wsporzedna
+     * x lub y tego przycisku
+     * @param b Obramowanie przycisku
+     */
     private void setSameLettersBorder(Border b)
     {
         ArrayList<Point> sameLettersCoordinates = gameWindow.getLetterTable().getSameMap().get(this.coordinates);
@@ -123,6 +165,11 @@ public class GeoButton extends JToggleButton implements MouseListener{
         }
     }
     
+    /**
+     * Usuwa z tablicy liter pare identycznych literek
+     * @param p1 Wspolrzedne pierwszego przycisku
+     * @param p2 Wspolrzedne drugiego przycisku
+     */
     private void removeLetterPair(Point p1, Point p2)
     {
         removeLetter(p1);
@@ -147,6 +194,10 @@ public class GeoButton extends JToggleButton implements MouseListener{
         }
     }
     
+    /**
+     * Usuwa litere z tablicy liter
+     * @param p  wspolrzedne litery w układzie planszy. Zaczynaja sie od 1.
+     */
     private void removeLetter(Point p)
     {
         //konwersja wspolrzednych do numerow elementow tablicy
@@ -159,6 +210,5 @@ public class GeoButton extends JToggleButton implements MouseListener{
            gameWindow.getLetterTable().setLetter(l, new Point(x, h)); 
         }
         gameWindow.getLetterTable().setLetter(' ', new Point(x, 0));
-//        gameWindow.getPoints_to_buttons().get(new Point((int)p.getX(), 1)).setVisible(false);
     }
 }

@@ -2,15 +2,18 @@ import java.util.ArrayList;
 
 
 public class Solution {
-	public Solution newSolution(double C, ArrayList<LetterTable> P)
+	public Solution()
 	{
-		Solution S=new Solution();
-		S.Cost = C;
-		S.Path = P;
 		
-		return S;
 	}
-
-	public double Cost;
+	public Solution(int C, ArrayList<LetterTable> P)
+	{
+		
+		Cost = C;
+		Path = P;
+		
+	}
+	
+	public int Cost;
 	public ArrayList<LetterTable> Path;
 }

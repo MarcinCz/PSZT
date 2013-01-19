@@ -66,7 +66,7 @@ public class GeoButton extends JToggleButton implements MouseListener{
     
     /**
      * Ustawia obramowanie przycisku, kiedy jest zaznaczony
-     * @return 
+     * @param b Obramowanie
      */
     public void setSelectedBorder(Border b)
     {
@@ -77,13 +77,11 @@ public class GeoButton extends JToggleButton implements MouseListener{
      * Obsluga klikniecia myszka na przycisk. Jesli wczesniej nie kliknieto zadnego przycisku, to zmienia obramowanie przycisku.
      * W przeciwnym wypadku, sprawdza, czy poprzednio klikniety przycisk, to przycisk z identyczna liteka. Jesli tak, to przyciski
      * sa zdejmowane. W przeciwnym wypadku, oba przyciski zostaja odznaczone.
-     * @param me 
+     * @param me Zdarzenie myszy
      */
     @Override
     public void mouseClicked(MouseEvent me) {
         Point firstPoint = gameWindow.getSelectedPoint();
-        gameWindow.log(getText() + " " + coordinates + " zostalo klikniete (zaznaczone = "
-                + this.isSelected() + ")\n");
                 
         if(firstPoint==null)
         {
@@ -110,23 +108,24 @@ public class GeoButton extends JToggleButton implements MouseListener{
         }
     }
     
-    /*
+    /**
      * Funkcja nie obslugiwana
      */
     @Override
     public void mousePressed(MouseEvent me) {
     }
 
-    /*
+    /**
      * Funkcja nie obslugiwana
      */
     @Override
     public void mouseReleased(MouseEvent me) {
     }
 
-    /*
+    /**
      * Obsluguje zdarzenie najechania myszka na przycisk. Ustawia szczegolne obramowanie przyciskow o 
      * wsporzednej x lub y takiej samej jak wporzedna x lub y przycisku, na ktory najechano myszka.
+     * @param me Zdarzenie myszy
      */
     @Override
     public void mouseEntered(MouseEvent me) {
@@ -135,9 +134,10 @@ public class GeoButton extends JToggleButton implements MouseListener{
         
     }
 
-    /*
+    /**
      * Obsluguje zdarzenie odjechania myszka znad przycisku. Usuwa szczegolne obramowanie przyciskow o 
      * wsporzednej x lub y takiej samej jak wporzedna x lub y przycisku, znad ktorego przesunieto myszke.
+     * @param me Zdarzenie myszy
      */
     @Override
     public void mouseExited(MouseEvent me) {
@@ -172,9 +172,13 @@ public class GeoButton extends JToggleButton implements MouseListener{
      */
     private void removeLetterPair(Point p1, Point p2)
     {
+        char l1 = gameWindow.getLetterTable().getLetter(new Point((int)p1.getX()-1, (int)p1.getY()-1));
+        char l2 = gameWindow.getLetterTable().getLetter(new Point((int)p2.getX()-1, (int)p2.getY()-1));
         removeLetter(p1);
         removeLetter(p2);
-        gameWindow.log("Usuwanie liter " + p1 + " " + p2 + "\n");
+        
+        gameWindow.log("Usuwanie liter " + l1 + "(" + (int)p1.getX() + "," + (int)p1.getY() + ") " 
+                + l2 + "(" + (int)p2.getX() + "," + (int)p2.getY() + ")\n");
         gameWindow.log("\nNowa postać planszy:\n");
         gameWindow.log(gameWindow.getLetterTable().toString() + "\n");
         gameWindow.getLetterTable().calcPairs();

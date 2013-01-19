@@ -288,7 +288,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ostatnie w&#x119;z&#x142;y:"/>
+                    <Property name="text" type="java.lang.String" value="&lt;HTML&gt;Liczba wezlow&lt;BR&gt;dodanych do zbioru G:&lt;/HTML&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="statLastCount">
@@ -298,7 +298,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel9">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Aktualny koszt:"/>
+                    <Property name="text" type="java.lang.String" value="Licznosc zbioru G:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="statCost">
@@ -380,7 +380,6 @@
                   <Font name="Ubuntu" size="48" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="00:00:00"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel17">

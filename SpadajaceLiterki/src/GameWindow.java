@@ -164,13 +164,13 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         statCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statCount);
 
-        jLabel7.setText("Ostatnie węzły:");
+        jLabel7.setText("<HTML>Liczba wezlow<BR>dodanych do zbioru G:</HTML>");
         infoPanel.add(jLabel7);
 
         statLastCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statLastCount);
 
-        jLabel9.setText("Aktualny koszt:");
+        jLabel9.setText("Licznosc zbioru G:");
         infoPanel.add(jLabel9);
 
         statCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -242,7 +242,6 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
 
         TimerLabel2.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         TimerLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TimerLabel2.setText("00:00:00");
 
         jLabel17.setText("Wiersze:");
 
@@ -783,7 +782,6 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
             @Override
             public void actionPerformed(ActionEvent ae) {
                 long t = getTimePastMillis();
-//                TimerLabel.setText(""+t);
                 l.setText(millisToTimeLabel(t));
                 statSolution.setText(""+Alg.getMinLetters());
                 statCount.setText(""+Alg.getExploredNodes());
@@ -835,7 +833,9 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         radios = new ButtonGroup();
         radios.add(radioA);
         radios.add(radioIDA);
+        radioA.setSelected(true);
         TimerLabel.setText(millisToTimeLabel(0));
+        TimerLabel2.setText(millisToTimeLabel(0));
     }
     
     /**

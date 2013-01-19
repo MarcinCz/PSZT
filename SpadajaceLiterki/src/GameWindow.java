@@ -122,7 +122,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
             }
         });
 
-        SolveButton.setText("Rozwiąż planszę");
+        SolveButton.setText("Rozwiaz plansze");
         SolveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolveButtonActionPerformed(evt);
@@ -143,7 +143,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
             }
         });
 
-        jButton1.setText("Wyjście");
+        jButton1.setText("Wyjscie");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -152,13 +152,13 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
 
         infoPanel.setLayout(new java.awt.GridLayout(5, 2, 4, 0));
 
-        jLabel3.setText("Najlepsze rozwiązanie:");
+        jLabel3.setText("Najlepsze rozwiazanie:");
         infoPanel.add(jLabel3);
 
         statSolution.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statSolution);
 
-        jLabel5.setText("Odwiedzone węzły:");
+        jLabel5.setText("Odwiedzone wezły:");
         infoPanel.add(jLabel5);
 
         statCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -170,7 +170,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         statLastCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statLastCount);
 
-        jLabel9.setText("Liczebnosc zbioru G:");
+        jLabel9.setText("Licznosc zbioru G:");
         infoPanel.add(jLabel9);
 
         statCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -237,7 +237,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        tabbedPane.addTab("Rozwiązanie", ControlsPanel);
+        tabbedPane.addTab("Rozwiazanie", ControlsPanel);
         ControlsPanel.getAccessibleContext().setAccessibleName("Rozwiazanie");
 
         TimerLabel2.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
@@ -265,7 +265,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
             }
         });
 
-        exitBtn2.setText("Wyjście");
+        exitBtn2.setText("Wyjscie");
         exitBtn2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitBtn2ActionPerformed(evt);
@@ -499,7 +499,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
 		} catch (Exception e) {
 			return;
 		}
-        Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
+        Logger.append("Stworzono plansze: " + letterTable.calcPairs() + " mozliwych par" + NEW_LINE);
         Logger.append(letterTable.toString());
         Logger.append(LINE);
         Logger.append(NEW_LINE);

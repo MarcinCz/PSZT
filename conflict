@@ -1,0 +1,10 @@
+From https://github.com/MarcinCz/PSZT
+   36c6901..86e1ce4  main       -> origin/main
+CONFLICT (modify/delete): SpadajaceLiterki/src/Main.java deleted in HEAD and modified in 86e1ce4ab65de0118e7b90768fd0e88e278faa97. Version 86e1ce4ab65de0118e7b90768fd0e88e278faa97 of SpadajaceLiterki/src/Main.java left in tree.
+Auto-merging SpadajaceLiterki/src/LetterTable.java
+CONFLICT (content): Merge conflict in SpadajaceLiterki/src/LetterTable.java
+Auto-merging SpadajaceLiterki/src/Algorithm.java
+CONFLICT (content): Merge conflict in SpadajaceLiterki/src/Algorithm.java
+Automatic merge failed; fix conflicts and then commit the result.
+karol@vostro:~/dev/projects/PSZT$ 
+

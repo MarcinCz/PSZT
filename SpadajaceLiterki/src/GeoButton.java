@@ -185,10 +185,10 @@ public class GeoButton extends JToggleButton implements MouseListener{
         gameWindow.log("-----------------------------------\n");
         gameWindow.log("Usuwanie liter " + l1 + "(" + (int)p1.getX() + "," + (int)p1.getY() + ") " 
                 + l2 + "(" + (int)p2.getX() + "," + (int)p2.getY() + ")\n");
-        gameWindow.log("\nNowa postać planszy:\n");
+        gameWindow.log("\nNowa postac planszy:\n");
         gameWindow.log(gameWindow.getLetterTable().toString() + "\n");
         gameWindow.getLetterTable().calcPairs();
-        gameWindow.log("Liczba możliwych par: " +gameWindow.getLetterTable().getPairs() + "\n\n");
+        gameWindow.log("Liczba mozliwych par: " +gameWindow.getLetterTable().getPairs() + "\n\n");
         gameWindow.makeBoard();
         
         int pairs = gameWindow.getLetterTable().getPairs();
@@ -198,7 +198,7 @@ public class GeoButton extends JToggleButton implements MouseListener{
             gameWindow.log("KONIEC GRY\n\n");
             
             JOptionPane.showMessageDialog(gameWindow,
-                "Nie ma więcej par.\nKONIEC GRY",
+                "Nie ma wiecej par.\nKONIEC GRY",
                 "KONIEC GRY",
                 JOptionPane.PLAIN_MESSAGE);
         }

@@ -116,8 +116,8 @@
           </AccessibilityProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Rozwi&#x105;zanie">
-                <Property name="tabTitle" type="java.lang.String" value="Rozwi&#x105;zanie"/>
+              <JTabbedPaneConstraints tabName="Rozwiazanie">
+                <Property name="tabTitle" type="java.lang.String" value="Rozwiazanie"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -228,7 +228,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="SolveButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Rozwi&#x105;&#x17c; plansz&#x119;"/>
+                <Property name="text" type="java.lang.String" value="Rozwiaz plansze"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolveButtonActionPerformed"/>
@@ -252,7 +252,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Wyj&#x15b;cie"/>
+                <Property name="text" type="java.lang.String" value="Wyjscie"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -268,7 +268,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Najlepsze rozwi&#x105;zanie:"/>
+                    <Property name="text" type="java.lang.String" value="Najlepsze rozwiazanie:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="statSolution">
@@ -278,7 +278,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Odwiedzone w&#x119;z&#x142;y:"/>
+                    <Property name="text" type="java.lang.String" value="Odwiedzone wez&#x142;y:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="statCount">
@@ -417,7 +417,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="exitBtn2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Wyj&#x15b;cie"/>
+                <Property name="text" type="java.lang.String" value="Wyjscie"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitBtn2ActionPerformed"/>

@@ -175,8 +175,14 @@ public class GeoButton extends JToggleButton implements MouseListener{
         char l1 = gameWindow.getLetterTable().getLetter(new Point((int)p1.getX()-1, (int)p1.getY()-1));
         char l2 = gameWindow.getLetterTable().getLetter(new Point((int)p2.getX()-1, (int)p2.getY()-1));
         removeLetter(p1);
-        removeLetter(p2);
+        if(p1.getY()>p2.getY())
+        {
+            removeLetter(new Point((int)p2.getX(), (int)p2.getY()+1));
+        } else {
+            removeLetter(p2);
+        }
         
+        gameWindow.log("-----------------------------------\n");
         gameWindow.log("Usuwanie liter " + l1 + "(" + (int)p1.getX() + "," + (int)p1.getY() + ") " 
                 + l2 + "(" + (int)p2.getX() + "," + (int)p2.getY() + ")\n");
         gameWindow.log("\nNowa postać planszy:\n");

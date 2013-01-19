@@ -510,6 +510,8 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
      */
     private void exitBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtn2ActionPerformed
         // wyjście
+        if(timer!=null)
+            timer.stop();
         setVisible(false);
         dispose();
     }//GEN-LAST:event_exitBtn2ActionPerformed

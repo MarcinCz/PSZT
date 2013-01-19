@@ -33,8 +33,9 @@ public class LetterTable {
 	 * generuje tablice literek MxN zapelniona literkami
 	 * @param N wiersze
 	 * @param M kolumny
+	 * @throws Exception 
 	 */
-	public void generate(int N, int M)
+	public void generate(int N, int M) throws Exception
 	{
             //tworzenie hashtable z parami liter
             sameMap = new SameLettersMap();
@@ -48,8 +49,7 @@ public class LetterTable {
 		
 		if((N*M)%2!=0)
 		{
-			System.out.println("Zle wymiary");
-			return;
+			throw(new Exception("Zly wymiar"));
 		}
 		
 		

@@ -370,13 +370,18 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
             cols = new Integer(colsField.getText());
             rows = new Integer(rowsField.getText());
         } catch (Exception e) {
+        	
             Logger.append(">>> Blad wartosci rozmiaru planszy!" + NEW_LINE + 
                     ">>> Stworzono plansze."+ NEW_LINE + NEW_LINE);
         }
         
         Logger.setText("");
         letterTable = new LetterTable();
-        letterTable.generate(rows, cols);
+        try {
+			letterTable.generate(rows, cols);
+		} catch (Exception e) {
+			return;
+		}
         Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
         Logger.append(letterTable.toString());
         Logger.append(LINE);
@@ -489,7 +494,11 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         }
         
         letterTable = new LetterTable();
-        letterTable.generate(rows, cols);
+        try {
+			letterTable.generate(rows, cols);
+		} catch (Exception e) {
+			return;
+		}
         Logger.append("Generated board: " + letterTable.calcPairs() + " pairs to choose" + NEW_LINE);
         Logger.append(letterTable.toString());
         Logger.append(LINE);

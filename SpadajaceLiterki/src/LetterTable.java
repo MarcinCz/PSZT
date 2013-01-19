@@ -7,16 +7,20 @@ import java.awt.Point;
 import java.util.Hashtable;
 
 public class LetterTable {
-	/*
-	 * N-wiersze
-	 * M-kolumny
+	/**
+	 * 
 	 */
 	public LetterTable()
         {
             sameMap = new SameLettersMap();
         }
 	
-	//tworzy pusta tablice literek MxN
+	
+	/**
+	 * tworzy pusta tablice literek MxN
+	 * @param N wiersze
+	 * @param M kolumny
+	 */
 	public void createEmpty(int N, int M)
 	{
 		Width = M;
@@ -24,7 +28,12 @@ public class LetterTable {
 		Size = N*M;
 	}
 	
-	//generuje tablice literek MxN zapelniona literkami
+	
+	/**
+	 * generuje tablice literek MxN zapelniona literkami
+	 * @param N wiersze
+	 * @param M kolumny
+	 */
 	public void generate(int N, int M)
 	{
             //tworzenie hashtable z parami liter
@@ -71,7 +80,9 @@ public class LetterTable {
 		}
 		
 	}
-        
+    /**
+     * Zwraca tablice w postaci String
+     */
 	public String toString()
 	{
             String output = "";
@@ -86,7 +97,11 @@ public class LetterTable {
             return output;
 	}
         
-	//liczy ile jest mozliwych par do wybrania
+	
+	/**
+	 * liczy ile jest mozliwych par do wybrania
+	 * @return liczba par do zdjecia
+	 */
 	public int calcPairs()
 	{
 		sameMap.clear();
@@ -128,7 +143,11 @@ public class LetterTable {
                 
 		return Pairs;
 	}
-	//zwraca wektor wszystkich mozliwych tablic po usunieciu pary
+	
+	/**
+	 * zwraca wektor wszystkich mozliwych tablic po usunieciu pary
+	 * @return wektor wszystkich mozliwych tablic po usunieciu pary
+	 */
 	public ArrayList<LetterTable> getNextTables()
 	{
 		ArrayList<LetterTable> Tables=new ArrayList<LetterTable>();
@@ -184,35 +203,62 @@ public class LetterTable {
 		}
 		return Tables;
 	}
-	
+	/**
+	 * Ustawia tablice char[][]
+	 * @param T tablica char[][]
+	 */
 	public void setTable(char[][] T)
 	{
 		Table=T;
 	}
-	
+	/**
+	 * Ustawia liczbe liter do zdjecia
+	 * @param L liczba liter do zdjecia
+	 */
 	public void setLettersNumber(int L)
 	{
 		LettersNumber=L;
 	}
-	
+	/**
+	 * Zwraca liczbe liter do zdjecia
+	 * @return Liczba liter do zdjecia
+	 */
 	public int getLettersNumber() {
 		return LettersNumber;
 	}
+	/**
+	 * Zwraca ustawiona liczbe par do zdjecia
+	 * @return Liczba par do zdjecia
+	 */
 	public int getPairs() {
 		return Pairs;
 	}
-        
-        public ArrayList<Integer> getPointsDeleted() {
+    /**
+     * Zwraca wektor usunietych z tablicy punktow    
+     * @return Wektor usunietych z tablicu punktow
+     */
+    public ArrayList<Integer> getPointsDeleted() {
 		return PointsDeleted;
 	}
+    /**
+     * Dodaje usuniete punkty do wektora usunietych punktow
+     * @param Y1
+     * @param X1
+     * @param Y2
+     * @param X2
+     */
 	public void addPointsDeleted(Integer Y1, Integer X1, Integer Y2, Integer X2) {
 		PointsDeleted.add(Y1);
 		PointsDeleted.add(X1);
 		PointsDeleted.add(Y2);
 		PointsDeleted.add(X2);
 	}
-        
-        public boolean isEqual(LetterTable tab)
+    /**
+     * Sprawdza czy otrzymana tablica char[][] jest taka sama jak tablica danego obiektu 
+     * @param tab otrzymywana tablica char[][]
+     * @return true jesli tak, false jesli nie
+     */
+    public boolean isEqual(LetterTable tab)
 	{
 		char[][] tabTable=tab.getTable();
 		if (C_cost!=tab.getC_cost() || Pairs!=tab.getPairs() || LettersNumber != tab.getLettersNumber() )
@@ -228,45 +274,71 @@ public class LetterTable {
 		}
 		return true;
 	}
-        
-        public char[][] getTable() {
+    /**
+     * Zwraca posiadana tablice char[][]
+     * @return tablica char[][]
+     */
+    public char[][] getTable() {
             return Table;
-        }
-        
-        public void setC_cost(int c_cost) {
+    }
+    /**
+     * Ustawia koszt C danego wezla
+     * @param c_cost koszt C
+     */
+    public void setC_cost(int c_cost) {
 		C_cost = c_cost;
 	}
+    /**
+     * Zwraca koszt C danego wezla
+     * @return koszt C
+     */
 	public int getC_cost() {
 		return C_cost;
 	}
+	/**
+	 * Ustawia wezel poprzedzajacy dany wezel
+	 * @param parent wezel poprzedzajacy
+	 */
 	public void setParent(LetterTable parent) {
 		Parent = parent;
 	}
+	/**
+	 * Zwraca wezel poprzedzajacy dany wezel
+	 * @return wezel poprzedzajacy
+	 */
 	public LetterTable getParent() {
 		return Parent;
 	}
-        public void setFull_cost(int full_cost) {
+	/**
+	 * Ustawia pelny koszt wezla
+	 * @param full_cost pelny koszt wezla
+	 */
+    public void setFull_cost(int full_cost) {
 		Full_cost = full_cost;
 	}
+    /**
+     * Zwraca pelny koszt wezla
+     * @return pelny koszt wezla
+     */
 	public int getFull_cost() {
 		return Full_cost;
 	}
-        
-        public SameLettersMap getSameMap() {
-            return sameMap;
-        }
-        
-        public void setLetter(char c,Point p)
-        {
-            Table[(int)p.getY()][(int)p.getX()] = c;
-        }
-        
-        public char getLetter(Point p)
-        {
-            return Table[(int)p.getY()][(int)p.getX()];
-        }
-	
-        private LetterTable Parent;
+    
+    public SameLettersMap getSameMap() {
+        return sameMap;
+    }
+    
+    public void setLetter(char c,Point p)
+    {
+        Table[(int)p.getY()][(int)p.getX()] = c;
+    }
+    
+    public char getLetter(Point p)
+    {
+        return Table[(int)p.getY()][(int)p.getX()];
+    }
+
+    private LetterTable Parent;
 	private int C_cost;
 	private int Full_cost;
 	private ArrayList<Integer> PointsDeleted = new ArrayList<Integer>();//kolejnosc Y1,X1,Y2,X2
@@ -303,21 +375,6 @@ public class LetterTable {
             temp.add(value);
             sameList.put(key, temp);
         }
-        
-//            public boolean contains(String s, Point p)
-//            {
-//                ArrayList<Point> temp = sameList.get(s);
-//                if(temp!=null)
-//                {
-//                    for(int f=0;f<temp.size();f++)
-//                    {
-//                        if(temp.get(f).equals(p))
-//                            return true;
-//                    }
-//                }
-//                
-//                return false;
-//            }
         
         public ArrayList<Point> get(Point key)
         {

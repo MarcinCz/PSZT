@@ -2,8 +2,10 @@ import java.util.ArrayList;
 
 
 public class Algorithm implements Runnable{
-
-	@Override
+	/**
+	*@Override
+	*Uruchomienie watku algorytmu
+	*/
 	public void run() {
 		Running=true;
 		if(AlgorithmChoice==0) SolutionPath=A_Star(StartNode);
@@ -11,15 +13,29 @@ public class Algorithm implements Runnable{
 		window.SolvedAction();
 		Running=false;
 	}	
+	/**
+	 * Po otrzymaniu tablicy char[][] zwraca nowa tablice char[][]
+	 * bedaca kopia otrzymanej
+	 * @param src kopiowana tablica
+	 * @return skopiowana tablica
+	 */
 	public  char[][] cloneArray(char[][] src) {
-	    int length = src.length;
+	    int length = src .length;
 	    char[][] target = new char[length][src[0].length];
 	    for (int i = 0; i < length; i++) {
 	        System.arraycopy(src[i], 0, target[i], 0, src[i].length);
 	    }
 	    return target;
 	}
-	
+	/**
+	 * Usuwa wskazana pare liter z tablicy char[][]
+	 * @param T tablica char[][]
+	 * @param Y1
+	 * @param X1
+	 * @param Y2
+	 * @param X2
+	 * @return tablica po usunieciu liter
+	 */
 	public  char[][] removePair(char[][] T, int Y1, int X1, int Y2, int X2)
 	{
 		for(;Y1>0;Y1--)
@@ -36,7 +52,11 @@ public class Algorithm implements Runnable{
 		
 		return T;
 	}
-	
+	/**
+	 * Algorytm IDA_Star
+	 * @param Start Tablica do rozwiazania
+	 * @return Rozwiazanie jesli istnieje lub null jesli nie istnieje
+	 */
 	public  ArrayList<LetterTable> IDA_Star(LetterTable Start)
 	{
 		ArrayList<LetterTable> Path = new ArrayList<LetterTable>();
@@ -50,36 +70,35 @@ public class Algorithm implements Runnable{
 		//wywolujemy funkcje iteracyjnego przeszukiwania w glab ze zwiekszanym, co krok petli, limitem
 		while(true)
 		{
-			LastCostLimit=CostLimit;
-			//window.statCost(new Integer(LastCostLimit).toString());
-			
+			LastCostLimit=CostLimit;			
 			S = DepthLimitedSearch(0, Path, CostLimit);
 			if(!Running) return null;
 			CostLimit = S.Cost;
 			if(S.Path != null) return S.Path;
 			if(CostLimit == Integer.MAX_VALUE) return null;
-			
 			LastExploredNodes=0;
 		}
 	
 	}
-	
+	/**
+	 * Przesukiwanie w glab
+	 * @param StartCost aktualny koszt 
+	 * @param Path aktualna sciezka
+	 * @param CostLimit limit kosztu
+	 * @return nowy limit kosztu, rozwiazanie jest istnieje null jesli nie istnieje
+	 */
 	private  Solution DepthLimitedSearch(int StartCost, ArrayList<LetterTable> Path, int CostLimit)
 	{
 
 		if(!Running) return(new Solution(0, null));
 		LastExploredNodes++;
-		//window.statLastCount(new Integereger(LastExploredNodes).toString());
- 
 		ExploredNodes++;//w tym miejscu mozna wypisywac na ekran ile wezlow odwiedzono
-		//window.statCount(new Integereger(ExploredNodes).toString());
-		
-		
+
 		//bierzemy ostani element ze sciezki i ustawiamy jako sprawdzany wezel
 		LetterTable Node = Path.get(Path.size()-1);
 		if(Node.getLettersNumber()<MinLetters) 
 			{
-			//window.setStatSolution(new Integereger(MinLetters).toString());
+			
 				MinLetters = Node.getLettersNumber();
 			}
 		//a tu mozna wypisac najlepsze jak dotad rozwiazanie
@@ -143,7 +162,11 @@ public class Algorithm implements Runnable{
 		
 		return new Solution(NextCostLimit, null);
 	}
-	
+	/**
+	 * Algorytm A*
+	 * @param Start tablica do rozwiazania
+	 * @return Rozwiazanie jesli istnieje lub null jesli nie istnieje
+	 */
 	public  ArrayList<LetterTable> A_Star(LetterTable Start)
 	{
 		ExploredNodes=0;//ile wezlow lacznie odwiedzono
@@ -211,7 +234,6 @@ public class Algorithm implements Runnable{
 				{
 					LastExploredNodes++;
 					LastCostLimit++;
-					//window.statLastCount(new Integereger(LastExploredNodes).toString());
 					GSet.add(LTP);
 				}
 			}
@@ -231,7 +253,6 @@ public class Algorithm implements Runnable{
 			if(S.getLettersNumber()<MinLetters)
 			{
 				MinLetters=S.getLettersNumber();
-				//window.setStatSolution(new Integer(MinLetters).toString());
 			}
 			//Jesli S(i+1) jest stanem terminalnym
 			if(S.getLettersNumber()==0)
@@ -254,34 +275,75 @@ public class Algorithm implements Runnable{
 		}
 		else return null;
 }
-		
+	/**
+	 * Zwraca ile wezlow odwiedzono
+	 * @return liczba odwiedzonych wezlow
+	 */
 	public  int getExploredNodes() {
 		return ExploredNodes;
 	}
+	/**
+	 * Zwraca najlepsze rozwiazanie
+	 * @return Liczba liter
+	 */
 	public  int getMinLetters() {
 		return MinLetters;
 	}
+	/**
+	 * IDA* - Zwraca liczbe ostatnio odwiedzonych wezlow
+	 * A* - Zwraca liczbe wezlow dodanych do zbioru G
+	 * @return 
+	 */
 	public  int getLastExploredNodes() {
 		return LastExploredNodes;
 	}
+	/**
+	 * IDA* - Zwraca aktualny limit kosztu
+	 * A* - Zwraca liczebnosc zbioru G
+	 * @return
+	 */
 	public  int getLastCostLimit() {
 		return LastCostLimit;
 	}
+	/**
+	 * Ustawienie wykorzystywanego okna gry
+	 * @param Window okno gry
+	 */
 	public  void setWindow(GameWindow Window) {
 		window = Window;
 	}
+	/**
+	 * Wybranie uzywanego algorytmu
+	 * @param algorithmChoice 0-A* 1-IDA*
+	 */
 	public void setAlgorithmChoice(int algorithmChoice) {
 		AlgorithmChoice = algorithmChoice;
 	}
+	/**
+	 * Ustawienie tablicy do rozwiazania przez algorytm
+	 * @param startNode tablica do rozwiazania
+	 */
 	public void setStartNode(LetterTable startNode) {
 		StartNode = startNode;
 	}
+	/**
+	 * Zwraca ostatnie rozwiazanie algorytmu
+	 * @return Rozwiazanie algorytmu
+	 */
 	public ArrayList<LetterTable> getSolutionPath() {
 		return SolutionPath;
 	}
+	/**
+	 * Ustawia zmienna Running
+	 * @param running
+	 */
 	public void setRunning(boolean running) {
 		Running = running;
 	}
+	/**
+	 * Sprawdza jak ustawiona jest zmienna Running
+	 * @return Running
+	 */
 	public boolean isRunning() {
 		return Running;
 	}

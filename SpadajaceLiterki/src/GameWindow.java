@@ -170,7 +170,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         statLastCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoPanel.add(statLastCount);
 
-        jLabel9.setText("Licznosc zbioru G:");
+        jLabel9.setText("Liczebnosc zbioru G:");
         infoPanel.add(jLabel9);
 
         statCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -357,15 +357,12 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
     	if(Alg.isRunning()) 
     	{
     		Alg.setRunning(false);
-    		if(AlgThread.isAlive())
-        	{	
-    	    	try {
-    				Thread.currentThread();
-    				Thread.sleep(1000);
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-        	}
+    		try {
+				AlgThread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	return;
     	}
     	
@@ -422,7 +419,9 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
        Alg.setStartNode(letterTable);
        Logger.append("Solution: " + AlgS + NEW_LINE);
        Logger.append(LINE);
-  
+       
+       GenerateButton.setText("Stop");
+       
         try {
             if(AlgS.equals("A"))
             {
@@ -455,7 +454,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
          {iterator = Solution.listIterator();
          iterator.next();}
          timer.stop();
-         
+         GenerateButton.setText("Nowa plansza");
          statSolution.setText(""+Alg.getMinLetters());
          statCount.setText(""+Alg.getExploredNodes());
          statLastCount.setText(""+Alg.getLastExploredNodes());
@@ -868,7 +867,7 @@ public class GameWindow extends javax.swing.JFrame implements ChangeListener, Ac
         if(AlgS.equals("A"))
         {
             jLabel7.setText("<HTML>Liczba wezlow<BR>dodanych do zbioru G:</HTML>");
-            jLabel9.setText("Licznosc zbioru G:");
+            jLabel9.setText("Liczebnosc zbioru G:");
         }
         else
         {
